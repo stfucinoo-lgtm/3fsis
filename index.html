@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraPharma | Next-Gen Pharmaceutical Care</title>
+    
+    <!-- Design Fonts: Inter for Clean UI, Plus Jakarta Sans for Medical Headings -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons (FontAwesome & Tabler) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- GSAP for Smooth High-Performance Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* ==========================================================================
+           1. Design Tokens (CSS Variables)
+           ========================================================================== */
+        :root {
+            --color-primary: #005b96;
+            --color-primary-light: #0070ba;
+            --color-accent-teal: #40e0d0;
+            --color-accent-teal-dark: #26b3a5;
+            --color-bg-light: #f8fafc;
+            --color-bg-white: #ffffff;
+            --color-text-dark: #0f172a;
+            --color-text-slate: #475569;
+            --color-border: rgba(0, 91, 150, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08);
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ==========================================================================
+           2. Global Reset & Base Typography
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--color-bg-light);
+            color: var(--color-text-slate);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--color-text-dark);
+            font-weight: 700;
+        }
+
+        /* ==========================================================================
+           3. UI Utility Elements
+           ========================================================================== */
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-ripple--primary {
+            background-color: var(--color-primary);
+            color: var(--color-bg-white);
+            padding: 12px 28px;
+            font-size: 0.95rem;
+        }
+
+        .btn-ripple--primary:hover {
+            background-color: var(--color-primary-light);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 91, 150, 0.15);
+        }
+
+        .btn-ripple--secondary {
+            background-color: var(--color-bg-white);
+            color: var(--color-primary);
+            border: 1.5px solid var(--color-primary);
+            padding: 12px 28px;
+            font-size: 0.95rem;
+        }
+
+        .btn-ripple--secondary:hover {
+            background-color: rgba(0, 91, 150, 0.03);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .btn-ripple .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-effect 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-effect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* ==========================================================================
+           4. Header Block (BEM: .header)
+           ========================================================================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition-smooth);
+        }
+
+        .header--scrolled {
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header__container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header__logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .header__logo-icon {
+            font-size: 1.6rem;
+            color: var(--color-primary);
+        }
+
+        .header__logo-text {
+            font-size: 1.3rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            color: var(--color-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .header__logo-text span {
+            color: var(--color-accent-teal);
+        }
+
+        .header__nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .header__link {
+            text-decoration: none;
+            color: var(--color-text-slate);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .header__link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-accent-teal);
+            transition: var(--transition-smooth);
+        }
+
+        .header__link:hover::after {
+            width: 100%;
+        }
+
+        .header__link:hover {
+            color: var(--color-primary);
+        }
+
+        .header__toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            cursor: pointer;
+        }
+
+        /* ==========================================================================
+           5. Hero Block (BEM: .hero)
+           ========================================================================== */
+        .hero {
+            padding: 160px 24px 80px;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: radial-gradient(circle at top right, rgba(64, 224, 208, 0.08) 0%, transparent 45%);
+        }
+
+        .hero__container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .hero__title {
+            font-size: 3.5rem;
+            line-height: 1.15;
+            margin-bottom: 24px;
+            letter-spacing: -1.5px;
+        }
+
+        .hero__title-highlight {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent-teal-dark) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero__subtitle {
+            font-size: 1.15rem;
+            color: var(--color-text-slate);
+            margin-bottom: 35px;
+            max-width: 550px;
+        }
+
+        .hero__actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .hero__visual-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: visible;
+            padding: 20px;
+        }
+
+        .hero__molecule-svg {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            filter: drop-shadow(0 20px 40px rgba(0, 91, 150, 0.08));
+            overflow: visible;
+        }
+
+        /* ==========================================================================
+           6. Search Module Section (BEM: .search-module)
+           ========================================================================== */
+        .search-module {
+            padding: 40px 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-module__container {
+            max-width: 800px;
+            margin: -60px auto 0;
+            background-color: var(--color-bg-white);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .search-module__label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-primary);
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .search-module__form {
+            display: flex;
+            gap: 16px;
+        }
+
+        .search-module__input-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .search-module__input-wrapper i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-slate);
+        }
+
+        .search-module__input {
+            width: 100%;
+            padding: 16px 52px 16px 20px;
+            border: 1px solid rgba(0, 91, 150, 0.15);
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: inherit;
+            color: var(--color-text-dark);
+            outline: none;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .search-module__input:focus {
+            border-color: var(--color-accent-teal-dark);
+            box-shadow: 0 0 0 4px rgba(64, 224, 208, 0.12);
+        }
+
+        /* ==========================================================================
+           7. Features Section (BEM: .features)
+           ========================================================================== */
+        .features {
+            padding: 100px 24px;
+            background-color: var(--color-bg-white);
+        }
+
+        .features__container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features__header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+
+        .features__section-title {
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+        }
+
+        .features__section-subtitle {
+            color: var(--color-text-slate);
+        }
+
+        .features__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .features__card {
+            background-color: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 40px 30px;
+            transition: var(--transition-smooth);
+        }
+
+        .features__card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(64, 224, 208, 0.3);
+            box-shadow: var(--shadow-md);
+        }
+
+        .features__icon-container {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 91, 150, 0.05);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 24px;
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .features__card:hover .features__icon-container {
+            background-color: var(--color-primary);
+            color: var(--color-bg-white);
+        }
+
+        .features__card-title {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+
+        .features__card-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           8. Medication Search Modal (BEM: .modal)
+           ========================================================================== */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal--active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal__overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal__content {
+            background-color: var(--color-bg-white);
+            border-radius: 16px;
+            max-width: 650px;
+            width: 90%;
+            padding: 40px;
+            position: relative;
+            z-index: 10;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--color-border);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal--active .modal__content {
+            transform: scale(1);
+        }
+
+        .modal__close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-slate);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .modal__close:hover {
+            color: var(--color-text-dark);
+            transform: rotate(90deg);
+        }
+
+        .modal__header {
+            margin-bottom: 24px;
+        }
+
+        .modal__title {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .modal__subtitle {
+            font-size: 0.95rem;
+        }
+
+        .modal__search-input, .modal__input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            outline: none;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .modal__search-input:focus, .modal__input:focus {
+            border-color: var(--color-primary);
+        }
+
+        /* Dynamic Field Validation Classes */
+        .modal__input.input-invalid {
+            border-color: #ef4444 !important;
+            background-color: #fffafb;
+        }
+
+        .modal__input.input-valid {
+            border-color: #10b981 !important;
+        }
+
+        .input-error-msg {
+            color: #ef4444;
+            font-size: 0.75rem;
+            margin-bottom: 12px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .modal__results-area {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .modal__result-card {
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            background-color: var(--color-bg-light);
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .modal__result-card:hover {
+            border-color: var(--color-primary);
+            transform: translateX(4px);
+        }
+
+        .modal__result-title {
+            font-size: 1.1rem;
+            color: var(--color-primary);
+            margin-bottom: 4px;
+        }
+
+        .modal__result-category {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--color-accent-teal-dark);
+            margin-bottom: 8px;
+        }
+
+        .modal__result-desc {
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-dark);
+            margin-bottom: 6px;
+        }
+
+        textarea.modal__input {
+            height: 100px;
+            resize: none;
+        }
+
+        /* --- Admin Panel Components --- */
+        .portal-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            border-bottom: 1.5px solid var(--color-border);
+            padding-bottom: 10px;
+        }
+
+        .portal-tab {
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--color-text-slate);
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: var(--transition-smooth);
+        }
+
+        .portal-tab--active {
+            color: var(--color-primary);
+            background-color: rgba(0, 91, 150, 0.05);
+        }
+
+        .portal-view {
+            display: none;
+        }
+
+        .portal-view--active {
+            display: block;
+        }
+
+        /* Delete action styling for Admin Dashboard */
+        .admin-action-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1rem;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .admin-action-btn:hover {
+            opacity: 1;
+        }
+
+        /* Password Strength Bar */
+        .pstrength {
+            height: 4px;
+            width: 100%;
+            background-color: #e2e8f0;
+            margin-top: -4px;
+            margin-bottom: 12px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .pstrength-bar {
+            height: 100%;
+            width: 0%;
+            transition: var(--transition-smooth);
+        }
+
+        /* --- Toast Notification System --- */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: var(--color-text-dark);
+            color: var(--color-bg-white);
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast--active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast--success {
+            border-left: 4px solid var(--color-accent-teal);
+        }
+
+        .toast--error {
+            border-left: 4px solid #ef4444;
+        }
+
+        /* ==========================================================================
+           9. Footer Block (BEM: .footer)
+           ========================================================================== */
+        .footer {
+            background-color: var(--color-text-dark);
+            color: #94a3b8;
+            padding: 80px 24px 30px;
+            font-size: 0.95rem;
+        }
+
+        .footer__container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer__logo-text {
+            color: var(--color-bg-white);
+            font-size: 1.4rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .footer__logo-text span {
+            color: var(--color-accent-teal);
+        }
+
+        .footer__tagline {
+            margin-bottom: 24px;
+            max-width: 250px;
+        }
+
+        .footer__socials {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer__social-link {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--color-bg-white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .footer__social-link:hover {
+            background-color: var(--color-primary);
+            transform: translateY(-2px);
+        }
+
+        .footer__column-title {
+            color: var(--color-bg-white);
+            font-size: 1.05rem;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .footer__list {
+            list-style: none;
+        }
+
+        .footer__item {
+            margin-bottom: 12px;
+        }
+
+        .footer__link {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .footer__link:hover {
+            color: var(--color-accent-teal);
+            padding-left: 4px;
+        }
+
+        .footer__bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        /* ==========================================================================
+           10. Responsive Breakpoints
+           ========================================================================== */
+        @media (max-width: 992px) {
+            .hero__container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .hero__subtitle {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero__actions {
+                justify-content: center;
+            }
+
+            .features__grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer__container {
+                grid-template-columns: 1.5fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header__nav {
+                position: fixed;
+                top: 76px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 76px);
+                background-color: var(--color-bg-white);
+                flex-direction: column;
+                padding-top: 60px;
+                gap: 40px;
+                transition: var(--transition-smooth);
+            }
+
+            .header__nav--active {
+                left: 0;
+            }
+
+            .header__toggle {
+                display: block;
+            }
+
+            .search-module__form {
+                flex-direction: column;
+            }
+
+            .features__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer__container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer__bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar Block -->
+    <header class="header" id="mainHeader">
+        <div class="header__container">
+            <a href="#" class="header__logo">
+                <i class="fa-solid fa-square-plus header__logo-icon"></i>
+                <span class="header__logo-text">AURA<span>PHARMA</span></span>
+            </a>
+            
+            <nav class="header__nav" id="headerNav">
+                <a href="#" class="header__link">Home</a>
+                <a href="#features" class="header__link">Solutions</a>
+                <a href="#" class="header__link" id="navPipelines">Pipelines</a>
+                <button class="btn-ripple btn-ripple--secondary" id="clientPortalBtn">Portal Access</button>
+                
+                <!-- Navbar logout button (Visible for users and admins when logged in) -->
+                <button class="btn-ripple btn-ripple--secondary" id="navLogoutBtn" style="display: none; border-color: #ef4444; color: #ef4444; padding: 10px 16px; font-size: 0.95rem;" title="Sign Out Session">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </nav>
+
+            <button class="btn-ripple btn-ripple--primary header__cta" id="ctaConsultation">Request Consultation</button>
+            
+            <button class="header__toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Block -->
+    <section class="hero">
+        <div class="hero__container">
+            <div class="hero__content">
+                <h1 class="hero__title">Innovating the Future of <span class="hero__title-highlight">Pharmaceutical Care</span></h1>
+                <p class="hero__subtitle">Integrating predictive AI, biological precision models, and secure cloud pipelines to scale and accelerate novel therapeutic discovery.</p>
+                <div class="hero__actions">
+                    <button class="btn-ripple btn-ripple--primary" id="explorePipelinesBtn">Explore Pipelines</button>
+                    <button class="btn-ripple btn-ripple--secondary" id="searchTrigger">Search Database</button>
+                </div>
+            </div>
+            
+            <!-- Graphic Element: Dynamic SVG Molecule Animation Area -->
+            <div class="hero__visual-container">
+                <svg class="hero__molecule-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="molecule-group">
+                        <line class="bond" x1="200" y1="200" x2="100" y2="100" stroke="#005b96" stroke-width="3" stroke-dasharray="5 5" />
+                        <line class="bond" x1="200" y1="200" x2="300" y2="100" stroke="#005b96" stroke-width="3" />
+                        <line class="bond" x1="200" y1="200" x2="200" y2="320" stroke="#40e0d0" stroke-width="4" />
+                        <line class="bond" x1="300" y1="100" x2="350" y2="200" stroke="#40e0d0" stroke-width="2" />
+                        
+                        <circle class="atom atom--core" cx="200" cy="200" r="30" fill="#005b96" />
+                        <circle class="atom atom--teal" cx="100" cy="100" r="22" fill="#40e0d0" />
+                        <circle class="atom atom--blue" cx="300" cy="100" r="18" fill="#005b96" />
+                        <circle class="atom atom--teal-small" cx="200" cy="320" r="15" fill="#40e0d0" />
+                        <circle class="atom atom--blue-small" cx="350" cy="200" r="12" fill="#005b96" />
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Medication Search Module -->
+    <section class="search-module">
+        <div class="search-module__container">
+            <span class="search-module__label">Public Clinical Database</span>
+            <div class="search-module__form">
+                <div class="search-module__input-wrapper">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" class="search-module__input" id="embedSearchInput" placeholder="Search therapeutic compounds (e.g., Amoxicillin, Metformin...)" readonly>
+                </div>
+                <button class="btn-ripple btn-ripple--primary" id="embedSearchBtn">Query Compound</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section Block -->
+    <section class="features" id="features">
+        <div class="features__container">
+            <div class="features__header">
+                <h2 class="features__section-title">Clinical-Grade Technology</h2>
+                <p class="features__section-subtitle">We deploy certified secure infrastructure engineered specifically for highly regulated computational bioscience pipelines.</p>
+            </div>
+
+            <div class="features__grid">
+                <div class="features__card">
+                    <div class="features__icon-container">
+                        <i class="fa-solid fa-dna"></i>
+                    </div>
+                    <h3 class="features__card-title">Precision Proteomics</h3>
+                    <p class="features__card-text">Accelerate discovery through computational structural modeling of complex compound-to-protein interactions.</p>
+                </div>
+
+                <div class="features__card">
+                    <div class="features__icon-container">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="features__card-title">GXP Compliance</h3>
+                    <p class="features__card-text">Fully-validated data pathways compliant with FDA 21 CFR Part 11, HIPAA, and EMA security regulations.</p>
+                </div>
+
+                <div class="features__card">
+                    <div class="features__icon-container">
+                        <i class="fa-solid fa-cloud-bolt"></i>
+                    </div>
+                    <h3 class="features__card-title">Federated R&D Pipeline</h3>
+                    <p class="features__card-text">Run secure Multi-Party Computation analysis directly within distributed research environments safely.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Modal Block -->
+    <div class="modal" id="searchModal">
+        <div class="modal__overlay" id="modalOverlay"></div>
+        <div class="modal__content">
+            <button class="modal__close" id="modalClose" aria-label="Close modal">&times;</button>
+            <div class="modal__header">
+                <h2 class="modal__title">Clinical Registry</h2>
+                <p class="modal__subtitle">Execute live queries against our validated molecular compounds database.</p>
+            </div>
+            
+            <input type="text" class="modal__search-input" id="modalSearchInput" placeholder="Type compound name to filter...">
+            
+            <div class="modal__results-area" id="modalResultsArea"></div>
+        </div>
+    </div>
+
+    <!-- Consultation Request Modal -->
+    <div class="modal" id="consultationModal">
+        <div class="modal__overlay" id="consultationOverlay"></div>
+        <div class="modal__content">
+            <button class="modal__close" id="consultationClose" aria-label="Close modal">&times;</button>
+            <div class="modal__header">
+                <h2 class="modal__title">Request Clinical Consultation</h2>
+                <p class="modal__subtitle">Speak with our expert computational bio-chemists regarding your research goals.</p>
+            </div>
+            
+            <form id="consultationForm" novalidate>
+                <div class="form-group">
+                    <label class="form-label">Full Name *</label>
+                    <input type="text" class="modal__input" id="fullName" placeholder="Dr. Sarah Jenkins">
+                    <div class="input-error-msg" id="fullNameError">Full name must be at least 3 letters.</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Institutional Email *</label>
+                    <input type="email" class="modal__input" id="email" placeholder="jenkins@institution.org">
+                    <div class="input-error-msg" id="emailError">Please enter a valid institutional email.</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Organization / Institution *</label>
+                    <input type="text" class="modal__input" id="organization" placeholder="Aura BioLabs">
+                    <div class="input-error-msg" id="orgError">Organization name is required.</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Research Focus & Message *</label>
+                    <textarea class="modal__input" id="message" placeholder="Describe your computational modeling goals..."></textarea>
+                    <div class="input-error-msg" id="msgError">Please supply a description of your focus.</div>
+                </div>
+                <button type="submit" class="btn-ripple btn-ripple--primary" style="width: 100%;">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth Modal (Login / Register) -->
+    <div class="modal" id="authModal">
+        <div class="modal__overlay" id="authOverlay"></div>
+        <div class="modal__content" style="max-width: 450px;">
+            <button class="modal__close" id="authClose" aria-label="Close modal">&times;</button>
+            
+            <div class="portal-tabs" style="justify-content: center; margin-bottom: 25px;">
+                <button class="portal-tab portal-tab--active" id="tabLogin">Login</button>
+                <button class="portal-tab" id="tabRegister">Register</button>
+            </div>
+
+            <!-- Login Section -->
+            <div id="loginView" class="portal-view portal-view--active">
+                <div class="modal__header" style="text-align: center;">
+                    <h2 class="modal__title">Welcome Back</h2>
+                    <p class="modal__subtitle">Sign in to access your researcher console</p>
+                </div>
+                <form id="loginForm" novalidate>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="modal__input" id="loginEmail" placeholder="admin@aurapharma.com">
+                        <div class="input-error-msg" id="loginEmailError">Enter a valid email address.</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="modal__input" id="loginPassword" placeholder="••••••••">
+                        <div class="input-error-msg" id="loginPasswordError">Password is required.</div>
+                    </div>
+                    <button type="submit" class="btn-ripple btn-ripple--primary" style="width: 100%; margin-top: 10px;">Sign In</button>
+                </form>
+            </div>
+
+            <!-- Register Section -->
+            <div id="registerView" class="portal-view">
+                <div class="modal__header" style="text-align: center;">
+                    <h2 class="modal__title">Create Account</h2>
+                    <p class="modal__subtitle">Join the federated clinical laboratory network</p>
+                </div>
+                <form id="registerForm" novalidate>
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="modal__input" id="regName" placeholder="Dr. Sarah Jenkins">
+                        <div class="input-error-msg" id="regNameError">Name must be at least 3 characters.</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Institutional Email</label>
+                        <input type="email" class="modal__input" id="regEmail" placeholder="jenkins@institution.org">
+                        <div class="input-error-msg" id="regEmailError">Enter a valid email address.</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Security Password</label>
+                        <input type="password" class="modal__input" id="regPassword" placeholder="Min 6 characters">
+                        <div class="pstrength"><div class="pstrength-bar" id="pstrengthBar"></div></div>
+                        <div class="input-error-msg" id="regPasswordError">Password must be at least 6 characters.</div>
+                    </div>
+                    <button type="submit" class="btn-ripple btn-ripple--primary" style="width: 100%; margin-top: 10px;">Register Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Console Modal (For Regular Logged-in Users) -->
+    <div class="modal" id="userConsoleModal">
+        <div class="modal__overlay" id="userConsoleOverlay"></div>
+        <div class="modal__content" style="max-width: 450px;">
+            <button class="modal__close" id="userConsoleClose" aria-label="Close modal">&times;</button>
+            <div class="modal__header" style="text-align: center;">
+                <div style="width: 60px; height: 60px; background-color: rgba(0, 91, 150, 0.05); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 16px; color: var(--color-primary); font-size: 1.5rem;">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <h2 class="modal__title">Researcher Profile</h2>
+                <p class="modal__subtitle">Federated laboratory session active</p>
+            </div>
+            
+            <div style="background-color: var(--color-bg-light); border: 1px solid var(--color-border); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(0, 91, 150, 0.05); padding-bottom: 8px;">
+                    <span style="font-weight: 600; color: var(--color-text-dark);">Name:</span>
+                    <span id="userConsoleName" style="color: var(--color-text-slate);"></span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(0, 91, 150, 0.05); padding-bottom: 8px;">
+                    <span style="font-weight: 600; color: var(--color-text-dark);">Email Address:</span>
+                    <span id="userConsoleEmail" style="color: var(--color-text-slate);"></span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="font-weight: 600; color: var(--color-text-dark);">Privilege Level:</span>
+                    <span id="userConsoleRole" style="color: var(--color-accent-teal-dark); font-weight: bold; text-transform: uppercase;"></span>
+                </div>
+            </div>
+            
+            <button class="btn-ripple btn-ripple--secondary" id="userConsoleLogoutBtn" style="width: 100%; border-color: #ef4444; color: #ef4444;">
+                <i class="fa-solid fa-right-from-bracket" style="margin-right: 8px;"></i> Sign Out Session
+            </button>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal -->
+    <div class="modal" id="adminDashboardModal">
+        <div class="modal__overlay" id="adminOverlay"></div>
+        <div class="modal__content" style="max-width: 900px; width: 95%;">
+            <button class="modal__close" id="adminClose" aria-label="Close modal">&times;</button>
+            
+            <div class="modal__header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 15px;">
+                <div>
+                    <h2 class="modal__title"><i class="fa-solid fa-gauge" style="color: var(--color-primary); margin-right: 8px;"></i> Admin Console</h2>
+                    <p class="modal__subtitle">Full control administrative operations panel</p>
+                </div>
+                <button class="btn-ripple btn-ripple--secondary" id="logoutBtn" style="padding: 8px 16px; font-size: 0.85rem;"><i class="fa-solid fa-right-from-bracket" style="margin-right: 6px;"></i> Sign Out</button>
+            </div>
+
+            <div class="portal-tabs" style="margin-top: 20px;">
+                <button class="portal-tab portal-tab--active" id="dashTabConsults">Consultations Inbox</button>
+                <button class="portal-tab" id="dashTabCompounds">Registry Management</button>
+                <button class="portal-tab" id="dashTabUsers">Registered Users</button>
+            </div>
+
+            <!-- View 1: Consultation Manager -->
+            <div id="dashViewConsults" class="portal-view portal-view--active">
+                <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: var(--color-text-dark);">Client Consultations Inbox</h3>
+                <div class="modal__results-area" id="adminConsultsContainer"></div>
+            </div>
+
+            <!-- View 2: Compound Inventory Manager -->
+            <div id="dashViewCompounds" class="portal-view">
+                <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 30px;">
+                    <div>
+                        <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: var(--color-text-dark);">Registry Compounds</h3>
+                        <div class="modal__results-area" id="adminCompoundsContainer" style="max-height: 400px;"></div>
+                    </div>
+                    <div style="border-left: 1px solid var(--color-border); padding-left: 20px;">
+                        <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: var(--color-text-dark);">Inject New Compound</h3>
+                        <form id="dashAddCompoundForm" novalidate>
+                            <div class="form-group">
+                                <label class="form-label">Compound Name</label>
+                                <input type="text" class="modal__input" id="adminCompName" placeholder="e.g., Atorvastatin">
+                                <div class="input-error-msg" id="adminCompNameError">Compound name is required.</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Therapeutic Category</label>
+                                <input type="text" class="modal__input" id="adminCompCat" placeholder="e.g., Lipid Regulator">
+                                <div class="input-error-msg" id="adminCompCatError">Category is required.</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Structural Description</label>
+                                <textarea class="modal__input" id="adminCompDesc" placeholder="Enter molecular dynamics details..."></textarea>
+                                <div class="input-error-msg" id="adminCompDescError">Description details must be provided.</div>
+                            </div>
+                            <button type="submit" class="btn-ripple btn-ripple--primary" style="width: 100%;">Commit Registry Insertion</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View 3: User List Viewer -->
+            <div id="dashViewUsers" class="portal-view">
+                <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: var(--color-text-dark);">Registered Platform Users</h3>
+                <div class="modal__results-area" id="adminUsersContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer Block -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__info">
+                <h3 class="footer__logo-text">AURA<span>PHARMA</span></h3>
+                <p class="footer__tagline">Pioneering safe, validated computational biochemistry solutions worldwide.</p>
+                <div class="footer__socials">
+                    <a href="#" class="footer__social-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="footer__social-link" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="footer__social-link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="footer__column-title">Pipelines</h4>
+                <ul class="footer__list">
+                    <li class="footer__item"><a href="#" class="footer__link">Oncology Solutions</a></li>
+                    <li class="footer__item"><a href="#" class="footer__link">Autoimmune Modulators</a></li>
+                    <li class="footer__item"><a href="#" class="footer__link">Neurodegenerative Hub</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer__column-title">Compliance</h4>
+                <ul class="footer__list">
+                    <li class="footer__item"><a href="#" class="footer__link">Clinical Verification</a></li>
+                    <li class="footer__item"><a href="#" class="footer__link">Privacy / HIPAA compliance</a></li>
+                    <li class="footer__item"><a href="#" class="footer__link">Regulatory Statements</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer__column-title">Enterprise</h4>
+                <ul class="footer__list">
+                    <li class="footer__item"><a href="#" class="footer__link">R&D Partnerships</a></li>
+                    <li class="footer__item"><a href="#" class="footer__link">Academic Alliances</a></li>
+                    <li class="footer__item"><a href="#" class="footer__link">Press & Media Assets</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer__bottom">
+            <p>&copy; 2026 AuraPharma Inc. Global research compounds verified according to validated ISO standards.</p>
+            <p>Clinical Intelligence Platform</p>
+        </div>
+    </footer>
+
+    <script>
+        // ==========================================================================
+        // JavaScript Architecture: Interactive UI Logic & GSAP Animations
+        // ==========================================================================
+
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // --- Global App State Management ---
+            let appToken = localStorage.getItem('aurapharma_jwt') || null;
+            let currentUser = JSON.parse(localStorage.getItem('aurapharma_user')) || null;
+
+            /* --- 1. GSAP Layout Animation Timeline --- */
+            gsap.set(".hero__content > *", { opacity: 0, y: 30 });
+            gsap.set(".hero__visual-container", { opacity: 0, scale: 0.85 });
+            gsap.set(".header", { y: -100 });
+
+            const loadTimeline = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+            loadTimeline
+                .to(".header", { y: 0, duration: 1 })
+                .to(".hero__content > *", { opacity: 1, y: 0, duration: 1.2, stagger: 0.15 }, "-=0.5")
+                .to(".hero__visual-container", { opacity: 1, scale: 1, duration: 1.5 }, "-=1");
+
+            gsap.to("#molecule-group", {
+                rotation: 360,
+                transformOrigin: "200px 200px",
+                duration: 60,
+                repeat: -1,
+                ease: "linear"
+            });
+
+            gsap.to(".atom--teal, .atom--teal-small", {
+                y: -10,
+                scale: 1.05,
+                repeat: -1,
+                yoyo: true,
+                duration: 3,
+                ease: "sine.inOut"
+            });
+
+            /* --- 2. Interactive Navigation Scroll Behavior --- */
+            const header = document.getElementById("mainHeader");
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 50) {
+                    header.classList.add("header--scrolled");
+                } else {
+                    header.classList.remove("header--scrolled");
+                }
+            });
+
+            /* --- 3. Responsive Mobile Menu toggling --- */
+            const menuToggle = document.getElementById("menuToggle");
+            const headerNav = document.getElementById("headerNav");
+
+            menuToggle.addEventListener("click", () => {
+                headerNav.classList.toggle("header__nav--active");
+                const toggleIcon = menuToggle.querySelector("i");
+                toggleIcon.classList.toggle("fa-bars");
+                toggleIcon.classList.toggle("fa-xmark");
+            });
+
+            /* --- 4. Event Delegation: Button Click Ripple & Glow --- */
+            document.addEventListener("click", (event) => {
+                const triggerButton = event.target.closest(".btn-ripple");
+                if (!triggerButton) return;
+
+                const ripple = document.createElement("span");
+                ripple.classList.add("ripple");
+                
+                const rect = triggerButton.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = `${size}px`;
+                ripple.style.height = `${size}px`;
+
+                const oldRipple = triggerButton.querySelector(".ripple");
+                if (oldRipple) oldRipple.remove();
+
+                triggerButton.appendChild(ripple);
+
+                triggerButton.style.boxShadow = "0 0 15px var(--color-accent-teal)";
+                setTimeout(() => { triggerButton.style.boxShadow = ""; }, 400);
+            });
+
+            /* --- 5. Global UI Utilities --- */
+            const showToast = (message, type = "success") => {
+                const toastContainer = document.getElementById("toastContainer");
+                const toast = document.createElement("div");
+                toast.className = `toast toast--${type}`;
+                const icon = type === "success" 
+                    ? '<i class="fa-solid fa-circle-check" style="color: var(--color-accent-teal);"></i>'
+                    : '<i class="fa-solid fa-circle-exclamation" style="color: #ef4444;"></i>';
+                
+                toast.innerHTML = `${icon} <span>${message}</span>`;
+                toastContainer.appendChild(toast);
+                setTimeout(() => toast.classList.add("toast--active"), 50);
+                setTimeout(() => {
+                    toast.classList.remove("toast--active");
+                    setTimeout(() => toast.remove(), 400);
+                }, 4000);
+            };
+
+            const validateEmailField = (email) => {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            };
+
+            const toggleFieldError = (fieldElement, errorMsgElement, isValid) => {
+                if (isValid) {
+                    fieldElement.classList.remove("input-invalid");
+                    fieldElement.classList.add("input-valid");
+                    errorMsgElement.style.display = "none";
+                } else {
+                    fieldElement.classList.add("input-invalid");
+                    fieldElement.classList.remove("input-valid");
+                    errorMsgElement.style.display = "block";
+                }
+            };
+
+            // Global unified logout action for both Users and Admins
+            const handleSessionSignOut = () => {
+                appToken = null;
+                currentUser = null;
+                localStorage.removeItem('aurapharma_jwt');
+                localStorage.removeItem('aurapharma_user');
+                updateHeaderAuthUI();
+                showToast("Session signed out successfully.", "success");
+                adminDashboardModal.classList.remove("modal--active");
+                document.getElementById("userConsoleModal").classList.remove("modal--active");
+            };
+
+            // Enhanced UI logic to handle unified Navbar links & logout buttons
+            const updateHeaderAuthUI = () => {
+                const portalBtn = document.getElementById("clientPortalBtn");
+                const navLogoutBtn = document.getElementById("navLogoutBtn");
+                
+                if (appToken && currentUser) {
+                    portalBtn.innerHTML = `<i class="fa-solid fa-user-shield" style="margin-right: 6px;"></i> ${currentUser.role === 'admin' ? 'Admin Board' : 'Console'}`;
+                    navLogoutBtn.style.display = "inline-flex"; // Show red logout directly in navbar
+                } else {
+                    portalBtn.innerHTML = "Portal Access";
+                    navLogoutBtn.style.display = "none"; // Hide logout button
+                }
+            };
+            updateHeaderAuthUI();
+
+            // Link Navbar logout button
+            document.getElementById("navLogoutBtn").addEventListener("click", handleSessionSignOut);
+
+            /* --- 6. Active Live Search (Clinical Database Registry) --- */
+            const searchModal = document.getElementById("searchModal");
+            const embedSearchInput = document.getElementById("embedSearchInput");
+            const embedSearchBtn = document.getElementById("embedSearchBtn");
+            const modalSearchInput = document.getElementById("modalSearchInput");
+            const modalResultsArea = document.getElementById("modalResultsArea");
+
+            const openSearchModal = () => {
+                searchModal.classList.add("modal--active");
+                modalSearchInput.value = "";
+                fetchPublicCompounds("");
+                setTimeout(() => modalSearchInput.focus(), 150);
+            };
+
+            embedSearchInput.addEventListener("click", openSearchModal);
+            embedSearchBtn.addEventListener("click", openSearchModal);
+            document.getElementById("searchTrigger").addEventListener("click", openSearchModal);
+            document.getElementById("modalClose").addEventListener("click", () => searchModal.classList.remove("modal--active"));
+            document.getElementById("modalOverlay").addEventListener("click", () => searchModal.classList.remove("modal--active"));
+
+            const fetchPublicCompounds = async (query) => {
+                try {
+                    modalResultsArea.innerHTML = '<div style="text-align: center; padding: 20px;"><i class="fa-solid fa-spinner fa-spin" style="color: var(--color-primary); font-size: 1.5rem;"></i></div>';
+                    const res = await fetch(`/api/compounds?search=${encodeURIComponent(query)}`);
+                    if (!res.ok) throw new Error();
+                    const compounds = await res.json();
+                    modalResultsArea.innerHTML = "";
+                    
+                    if (compounds.length === 0) {
+                        modalResultsArea.innerHTML = '<p style="text-align: center; padding: 20px;">No matching compounds registered in clinical inventory.</p>';
+                        return;
+                    }
+                    compounds.forEach(comp => {
+                        const card = document.createElement("div");
+                        card.className = "modal__result-card";
+                        card.innerHTML = `
+                            <div class="modal__result-category">${comp.category}</div>
+                            <h3 class="modal__result-title">${comp.name}</h3>
+                            <p class="modal__result-desc">${comp.description}</p>
+                        `;
+                        modalResultsArea.appendChild(card);
+                    });
+                } catch (e) {
+                    modalResultsArea.innerHTML = '<p style="text-align: center; color: #ef4444; padding: 20px;">Communication failure with clinical core.</p>';
+                }
+            };
+
+            let searchDebouncer;
+            modalSearchInput.addEventListener("input", (e) => {
+                clearTimeout(searchDebouncer);
+                searchDebouncer = setTimeout(() => fetchPublicCompounds(e.target.value), 300);
+            });
+
+
+            /* --- 7. Request Consultation (Strict Input Validation) --- */
+            const consultationModal = document.getElementById("consultationModal");
+            const consultForm = document.getElementById("consultationForm");
+
+            document.getElementById("ctaConsultation").addEventListener("click", () => consultationModal.classList.add("modal--active"));
+            document.getElementById("consultationClose").addEventListener("click", () => { consultationModal.classList.remove("modal--active"); consultForm.reset(); });
+            document.getElementById("consultationOverlay").addEventListener("click", () => { consultationModal.classList.remove("modal--active"); consultForm.reset(); });
+
+            const fullNameInp = document.getElementById("fullName");
+            const emailInp = document.getElementById("email");
+            const organizationInp = document.getElementById("organization");
+            const messageInp = document.getElementById("message");
+
+            fullNameInp.addEventListener("input", () => toggleFieldError(fullNameInp, document.getElementById("fullNameError"), fullNameInp.value.trim().length >= 3));
+            emailInp.addEventListener("input", () => toggleFieldError(emailInp, document.getElementById("emailError"), validateEmailField(emailInp.value.trim())));
+            organizationInp.addEventListener("input", () => toggleFieldError(organizationInp, document.getElementById("orgError"), organizationInp.value.trim().length > 0));
+            messageInp.addEventListener("input", () => toggleFieldError(messageInp, document.getElementById("msgError"), messageInp.value.trim().length > 10));
+
+            consultForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const v1 = fullNameInp.value.trim().length >= 3;
+                const v2 = validateEmailField(emailInp.value.trim());
+                const v3 = organizationInp.value.trim().length > 0;
+                const v4 = messageInp.value.trim().length > 10;
+
+                toggleFieldError(fullNameInp, document.getElementById("fullNameError"), v1);
+                toggleFieldError(emailInp, document.getElementById("emailError"), v2);
+                toggleFieldError(organizationInp, document.getElementById("orgError"), v3);
+                toggleFieldError(messageInp, document.getElementById("msgError"), v4);
+
+                if (v1 && v2 && v3 && v4) {
+                    try {
+                        const response = await fetch('/api/consultations', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                fullName: fullNameInp.value,
+                                email: emailInp.value,
+                                organization: organizationInp.value,
+                                message: messageInp.value
+                            })
+                        });
+                        const data = await response.json();
+                        if (response.ok) {
+                            showToast("Consultation submitted securely! Analysts notified.", "success");
+                            consultationModal.classList.remove("modal--active");
+                            consultForm.reset();
+                        } else {
+                            showToast(data.error, "error");
+                        }
+                    } catch (err) {
+                        showToast("Failed to communicate with API services.", "error");
+                    }
+                } else {
+                    showToast("Please fix validation failures in the form.", "error");
+                }
+            });
+
+
+            /* --- 8. Secure Authentication (Auth Modal) --- */
+            const authModal = document.getElementById("authModal");
+            const loginForm = document.getElementById("loginForm");
+            const registerForm = document.getElementById("registerForm");
+
+            const tabLogin = document.getElementById("tabLogin");
+            const tabRegister = document.getElementById("tabRegister");
+            const loginView = document.getElementById("loginView");
+            const registerView = document.getElementById("registerView");
+
+            tabLogin.addEventListener("click", () => {
+                tabLogin.classList.add("portal-tab--active");
+                tabRegister.classList.remove("portal-tab--active");
+                loginView.classList.add("portal-view--active");
+                registerView.classList.remove("portal-view--active");
+            });
+
+            tabRegister.addEventListener("click", () => {
+                tabRegister.classList.add("portal-tab--active");
+                tabLogin.classList.remove("portal-tab--active");
+                registerView.classList.add("portal-view--active");
+                loginView.classList.remove("portal-view--active");
+            });
+
+            // Action when pressing portal access button
+            document.getElementById("clientPortalBtn").addEventListener("click", () => {
+                if (appToken && currentUser) {
+                    if (currentUser.role === 'admin') {
+                        openAdminConsole();
+                    } else {
+                        openUserConsole(); // Open detailed session profile for regular users
+                    }
+                } else {
+                    authModal.classList.add("modal--active");
+                }
+            });
+
+            document.getElementById("authClose").addEventListener("click", () => authModal.classList.remove("modal--active"));
+            document.getElementById("authOverlay").addEventListener("click", () => authModal.classList.remove("modal--active"));
+
+            // Regular user profile dashboard controller
+            const userConsoleModal = document.getElementById("userConsoleModal");
+            const openUserConsole = () => {
+                document.getElementById("userConsoleName").textContent = currentUser.username;
+                document.getElementById("userConsoleEmail").textContent = currentUser.email;
+                document.getElementById("userConsoleRole").textContent = currentUser.role;
+                userConsoleModal.classList.add("modal--active");
+            };
+
+            document.getElementById("userConsoleClose").addEventListener("click", () => userConsoleModal.classList.remove("modal--active"));
+            document.getElementById("userConsoleOverlay").addEventListener("click", () => userConsoleModal.classList.remove("modal--active"));
+            document.getElementById("userConsoleLogoutBtn").addEventListener("click", handleSessionSignOut);
+
+            // Password strength analyzer
+            const regPassword = document.getElementById("regPassword");
+            const pstrengthBar = document.getElementById("pstrengthBar");
+
+            regPassword.addEventListener("input", () => {
+                const pass = regPassword.value;
+                let strength = 0;
+                if (pass.length >= 6) strength += 30;
+                if (/[A-Z]/.test(pass)) strength += 25;
+                if (/[0-9]/.test(pass)) strength += 25;
+                if (/[^A-Za-z0-9]/.test(pass)) strength += 20;
+
+                pstrengthBar.style.width = strength + "%";
+                if (strength < 40) pstrengthBar.style.backgroundColor = "#ef4444";
+                else if (strength < 80) pstrengthBar.style.backgroundColor = "#f59e0b";
+                else pstrengthBar.style.backgroundColor = "#10b981";
+            });
+
+            // Login execution
+            loginForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const emInp = document.getElementById("loginEmail");
+                const passInp = document.getElementById("loginPassword");
+                const v1 = validateEmailField(emInp.value.trim());
+                const v2 = passInp.value.length > 0;
+
+                toggleFieldError(emInp, document.getElementById("loginEmailError"), v1);
+                toggleFieldError(passInp, document.getElementById("loginPasswordError"), v2);
+
+                if (v1 && v2) {
+                    try {
+                        const response = await fetch('/api/auth/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: emInp.value, password: passInp.value })
+                        });
+                        const data = await response.json();
+                        if (response.ok) {
+                            appToken = data.token;
+                            currentUser = data.user;
+                            localStorage.setItem('aurapharma_jwt', appToken);
+                            localStorage.setItem('aurapharma_user', JSON.stringify(currentUser));
+                            
+                            showToast(data.message, "success");
+                            authModal.classList.remove("modal--active");
+                            updateHeaderAuthUI();
+                            loginForm.reset();
+
+                            if (currentUser.role === 'admin') openAdminConsole();
+                            else openUserConsole();
+                        } else {
+                            showToast(data.error, "error");
+                        }
+                    } catch (err) {
+                        showToast("Service failure during authentication call.", "error");
+                    }
+                }
+            });
+
+            // Registration execution
+            registerForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const nameInp = document.getElementById("regName");
+                const emInp = document.getElementById("regEmail");
+                const passInp = document.getElementById("regPassword");
+
+                const v1 = nameInp.value.trim().length >= 3;
+                const v2 = validateEmailField(emInp.value.trim());
+                const v3 = passInp.value.length >= 6;
+
+                toggleFieldError(nameInp, document.getElementById("regNameError"), v1);
+                toggleFieldError(emInp, document.getElementById("regEmailError"), v2);
+                toggleFieldError(passInp, document.getElementById("regPasswordError"), v3);
+
+                if (v1 && v2 && v3) {
+                    try {
+                        const response = await fetch('/api/auth/register', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                username: nameInp.value,
+                                email: emInp.value,
+                                password: passInp.value
+                            })
+                        });
+                        const data = await response.json();
+                        if (response.ok) {
+                            showToast(data.message, "success");
+                            tabLogin.click();
+                            registerForm.reset();
+                            pstrengthBar.style.width = "0%";
+                        } else {
+                            showToast(data.error, "error");
+                        }
+                    } catch (err) {
+                        showToast("Registration service communication error.", "error");
+                    }
+                }
+            });
+
+
+            /* --- 9. Administrative Control Panel (Admin Dashboard) --- */
+            const adminDashboardModal = document.getElementById("adminDashboardModal");
+            const adminConsultsContainer = document.getElementById("adminConsultsContainer");
+            const adminCompoundsContainer = document.getElementById("adminCompoundsContainer");
+            const adminUsersContainer = document.getElementById("adminUsersContainer");
+
+            const openAdminConsole = () => {
+                adminDashboardModal.classList.add("modal--active");
+                loadAdminConsultations();
+            };
+
+            document.getElementById("adminClose").addEventListener("click", () => adminDashboardModal.classList.remove("modal--active"));
+            document.getElementById("adminOverlay").addEventListener("click", () => adminDashboardModal.classList.remove("modal--active"));
+
+            const dashTabConsults = document.getElementById("dashTabConsults");
+            const dashTabCompounds = document.getElementById("dashTabCompounds");
+            const dashTabUsers = document.getElementById("dashTabUsers");
+            const dashViewConsults = document.getElementById("dashViewConsults");
+            const dashViewCompounds = document.getElementById("dashViewCompounds");
+            const dashViewUsers = document.getElementById("dashViewUsers");
+
+            dashTabConsults.addEventListener("click", () => {
+                toggleTabActive(dashTabConsults, dashViewConsults);
+                loadAdminConsultations();
+            });
+            dashTabCompounds.addEventListener("click", () => {
+                toggleTabActive(dashTabCompounds, dashViewCompounds);
+                loadAdminCompounds();
+            });
+            dashTabUsers.addEventListener("click", () => {
+                toggleTabActive(dashTabUsers, dashViewUsers);
+                loadAdminUsers();
+            });
+
+            const toggleTabActive = (activeTab, activeView) => {
+                [dashTabConsults, dashTabCompounds, dashTabUsers].forEach(tab => tab.classList.remove("portal-tab--active"));
+                [dashViewConsults, dashViewCompounds, dashViewUsers].forEach(view => view.classList.remove("portal-view--active"));
+                
+                activeTab.classList.add("portal-tab--active");
+                activeView.classList.add("portal-view--active");
+            };
+
+            // Sign Out action on Admin Console
+            document.getElementById("logoutBtn").addEventListener("click", handleSessionSignOut);
+
+            // Admin: Load Consultation inquiries
+            const loadAdminConsultations = async () => {
+                try {
+                    adminConsultsContainer.innerHTML = '<div style="text-align: center; padding: 20px;"><i class="fa-solid fa-spinner fa-spin" style="color: var(--color-primary); font-size: 1.5rem;"></i></div>';
+                    const response = await fetch('/api/consultations', {
+                        headers: { 'Authorization': `Bearer ${appToken}` }
+                    });
+                    if (!response.ok) throw new Error();
+                    const list = await response.json();
+                    adminConsultsContainer.innerHTML = "";
+
+                    if (list.length === 0) {
+                        adminConsultsContainer.innerHTML = '<p style="text-align: center; padding: 20px;">Consultation mailbox is empty.</p>';
+                        return;
+                    }
+                    list.forEach(item => {
+                        const card = document.createElement("div");
+                        card.className = "modal__result-card";
+                        card.style.borderLeft = "4px solid var(--color-primary)";
+                        card.innerHTML = `
+                            <button class="admin-action-btn" onclick="deleteConsultation(${item.id})"><i class="fa-solid fa-trash"></i></button>
+                            <div class="modal__result-category" style="color: var(--color-primary)">${item.organization}</div>
+                            <h3 class="modal__result-title" style="color: var(--color-text-dark); margin: 4px 0;">${item.fullName} <span style="font-size: 0.8rem; font-weight: normal; color: var(--color-text-slate);">(${item.email})</span></h3>
+                            <p class="modal__result-desc" style="font-style: italic; color: var(--color-text-slate); margin-top: 8px;">"${item.message}"</p>
+                            <small style="display: block; text-align: right; margin-top: 8px; font-size: 0.75rem; color: #94a3b8;">
+                                ${new Date(item.createdAt).toLocaleString()}
+                            </small>
+                        `;
+                        adminConsultsContainer.appendChild(card);
+                    });
+                } catch (e) {
+                    adminConsultsContainer.innerHTML = '<p style="text-align: center; color: #ef4444; padding: 20px;">Session unauthorized or service offline.</p>';
+                }
+            };
+
+            window.deleteConsultation = async (id) => {
+                if (!confirm("Are you sure you want to delete this research inquiry?")) return;
+                try {
+                    const res = await fetch(`/api/consultations/${id}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${appToken}` }
+                    });
+                    if (res.ok) {
+                        showToast("Inquiry wiped successfully.", "success");
+                        loadAdminConsultations();
+                    } else {
+                        showToast("Failure deleting record.", "error");
+                    }
+                } catch (err) {
+                    showToast("Server connection error.", "error");
+                }
+            };
+
+            // Admin: Load Registry Compounds
+            const loadAdminCompounds = async () => {
+                try {
+                    adminCompoundsContainer.innerHTML = '<div style="text-align: center; padding: 20px;"><i class="fa-solid fa-spinner fa-spin" style="color: var(--color-primary); font-size: 1.5rem;"></i></div>';
+                    const response = await fetch('/api/compounds');
+                    const compounds = await response.json();
+                    adminCompoundsContainer.innerHTML = "";
+
+                    compounds.forEach(comp => {
+                        const card = document.createElement("div");
+                        card.className = "modal__result-card";
+                        card.innerHTML = `
+                            <button class="admin-action-btn" onclick="deleteCompound(${comp.id})"><i class="fa-solid fa-trash"></i></button>
+                            <div class="modal__result-category">${comp.category}</div>
+                            <h3 class="modal__result-title">${comp.name}</h3>
+                            <p class="modal__result-desc">${comp.description}</p>
+                        `;
+                        adminCompoundsContainer.appendChild(card);
+                    });
+                } catch (e) {
+                    adminCompoundsContainer.innerHTML = '<p style="text-align: center; color: #ef4444;">Could not load compounds list.</p>';
+                }
+            };
+
+            window.deleteCompound = async (id) => {
+                if (!confirm("Remove compound entirely from validated registry?")) return;
+                try {
+                    const res = await fetch(`/api/compounds/${id}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${appToken}` }
+                    });
+                    if (res.ok) {
+                        showToast("Compound deleted from clinical core.", "success");
+                        loadAdminCompounds();
+                    } else {
+                        showToast("Failure removing record.", "error");
+                    }
+                } catch (err) {
+                    showToast("Database synchronization issue.", "error");
+                }
+            };
+
+            // Admin: Register insertion form with dynamic validation
+            const dashAddCompoundForm = document.getElementById("dashAddCompoundForm");
+            const adminCompName = document.getElementById("adminCompName");
+            const adminCompCat = document.getElementById("adminCompCat");
+            const adminCompDesc = document.getElementById("adminCompDesc");
+
+            adminCompName.addEventListener("input", () => toggleFieldError(adminCompName, document.getElementById("adminCompNameError"), adminCompName.value.trim().length > 0));
+            adminCompCat.addEventListener("input", () => toggleFieldError(adminCompCat, document.getElementById("adminCompCatError"), adminCompCat.value.trim().length > 0));
+            adminCompDesc.addEventListener("input", () => toggleFieldError(adminCompDesc, document.getElementById("adminCompDescError"), adminCompDesc.value.trim().length >= 10));
+
+            dashAddCompoundForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const v1 = adminCompName.value.trim().length > 0;
+                const v2 = adminCompCat.value.trim().length > 0;
+                const v3 = adminCompDesc.value.trim().length >= 10;
+
+                toggleFieldError(adminCompName, document.getElementById("adminCompNameError"), v1);
+                toggleFieldError(adminCompCat, document.getElementById("adminCompCatError"), v2);
+                toggleFieldError(adminCompDesc, document.getElementById("adminCompDescError"), v3);
+
+                if (v1 && v2 && v3) {
+                    try {
+                        const response = await fetch('/api/compounds', {
+                            method: 'POST',
+                            headers: { 
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${appToken}`
+                            },
+                            body: JSON.stringify({
+                                name: adminCompName.value,
+                                category: adminCompCat.value,
+                                description: adminCompDesc.value
+                            })
+                        });
+                        if (response.ok) {
+                            showToast("New clinical compound synthesized in registry!", "success");
+                            dashAddCompoundForm.reset();
+                            loadAdminCompounds();
+                        } else {
+                            const err = await response.json();
+                            showToast(err.error, "error");
+                        }
+                    } catch (err) {
+                        showToast("Error inserting new record.", "error");
+                    }
+                }
+            });
+
+            // Admin: View platform users
+            const loadAdminUsers = async () => {
+                try {
+                    adminUsersContainer.innerHTML = '<div style="text-align: center; padding: 20px;"><i class="fa-solid fa-spinner fa-spin" style="color: var(--color-primary); font-size: 1.5rem;"></i></div>';
+                    const response = await fetch('/api/users', {
+                        headers: { 'Authorization': `Bearer ${appToken}` }
+                    });
+                    const users = await response.json();
+                    adminUsersContainer.innerHTML = "";
+
+                    users.forEach(u => {
+                        const card = document.createElement("div");
+                        card.className = "modal__result-card";
+                        card.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <h3 class="modal__result-title" style="color: var(--color-text-dark);">${u.username}</h3>
+                                    <p class="modal__result-desc" style="font-size: 0.85rem; color: var(--color-text-slate);">${u.email}</p>
+                                </div>
+                                <span style="background-color: ${u.role === 'admin' ? '#ef4444' : '#10b981'}; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;">
+                                    ${u.role}
+                                </span>
+                            </div>
+                        `;
+                        adminUsersContainer.appendChild(card);
+                    });
+                } catch (e) {
+                    adminUsersContainer.innerHTML = '<p style="text-align: center; color: #ef4444;">Could not sync users database.</p>';
+                }
+            };
+
+            // extra connections
+            document.getElementById("explorePipelinesBtn").addEventListener("click", openSearchModal);
+            document.getElementById("navPipelines").addEventListener("click", (e) => { e.preventDefault(); openSearchModal(); });
+        });
+    </script>
+</body>
+</html>

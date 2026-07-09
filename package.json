@@ -1,0 +1,17 @@
+{
+  "name": "aurapharma-fullstack",
+  "version": "1.0.0",
+  "description": "Full-stack Pharmaceutical Care Intelligence Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3",
+    "sequelize": "^6.37.1",
+    "sqlite3": "^5.1.7"
+  }
+}
