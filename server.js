@@ -34,7 +34,9 @@ const User = sequelize.define('User', {
 const Compound = sequelize.define('Compound', {
   name: { type: DataTypes.STRING, allowNull: false, unique: true },
   category: { type: DataTypes.STRING, allowNull: false },
-  description: { type: DataTypes.TEXT, allowNull: false }
+  description: { type: DataTypes.TEXT, allowNull: false },
+  price: { type: DataTypes.FLOAT, defaultValue: 0.0 },
+  imageUrl: { type: DataTypes.STRING, allowNull: true }
 });
 
 const Consultation = sequelize.define('Consultation', {
@@ -253,16 +255,28 @@ app.get('/api/compounds', async (req, res) => {
 // إضافة مركب (للمسؤول فقط)
 app.post('/api/compounds', authenticateToken, requireAdmin, async (req, res) => {
   try {
-    let { name, category, description } = req.body;
+    let { name, category, description, price, imageUrl } = req.body;
     name = cleanInput(name);
     category = cleanInput(category);
     description = cleanInput(description);
+    imageUrl = cleanInput(imageUrl);
+
+    const parsedPrice = parseFloat(price);
+    if (isNaN(parsedPrice) || parsedPrice < 0) {
+      return res.status(400).json({ error: 'السعر المقدم غير صالح' });
+    }
 
     if (!name || !category || !description) {
       return res.status(400).json({ error: 'تأكد من ملء جميع تفاصيل المركب الجديد' });
     }
 
-    const newComp = await Compound.create({ name, category, description });
+    const newComp = await Compound.create({ 
+      name, 
+      category, 
+      description,
+      price: parsedPrice,
+      imageUrl: imageUrl || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80'
+    });
     return res.status(201).json(newComp);
   } catch (error) {
     return res.status(500).json({ error: 'فشل الإضافة، قد يكون المركب مسجل مسبقاً' });
@@ -301,7 +315,7 @@ app.get('/api/users', authenticateToken, requireAdmin, async (req, res) => {
 /* ==========================================
    بدء الخادم وبذر حساب المسؤول الافتراضي
    ========================================== */
-sequelize.sync().then(async () => {
+sequelize.sync({ alter: true }).then(async () => {
   console.log('Database Synced.');
 
   // بذر حساب مسؤول افتراضي إذا لم يتواجد أي مسؤول
@@ -321,8 +335,36 @@ sequelize.sync().then(async () => {
     console.log('====================================================');
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on port ${PORT}`);
+  // بذر مركبات طبية كعرض منتجات افتراضي في حال كان الجدول فارغاً
+  const compoundsCount = await Compound.count();
+  if (compoundsCount === 0) {
+    await Compound.bulkCreate([
+      {
+        name: 'Aura-Amoxicillin 500mg',
+        category: 'Antibiotic / Therapeutic',
+        description: 'Broad-spectrum bactericidal antibiotic of the aminopenicillin family. Structured to demonstrate exceptional biological absorption, targeted action, and structural stability across complex cellular systems.',
+        price: 45.99,
+        imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        name: 'Aura-Metformin XR 1000mg',
+        category: 'Metabolic Regulator',
+        description: 'Extended-release metabolic regulator engineered to assist glycemic control. Helps control hepatic glucose production while safely improving peripheral insulin sensitivity indices.',
+        price: 29.50,
+        imageUrl: 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        name: 'Aura-Atorvastatin Bio',
+        category: 'Cardiovascular / Lipid agent',
+        description: 'Pure synthetic lipid modulator developed for effective HMG-CoA reductase pathway restriction. Provides consistent stabilization profiles for patients requiring long-term cardiovascular monitoring.',
+        price: 64.00,
+        imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80'
+      }
+    ]);
+    console.log('Seed: Default products populated successfully.');
+  }
 
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
   });
 });
