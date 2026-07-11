@@ -1096,6 +1096,139 @@
         }
 
         /* ==========================================================================
+           9. Footer Block (BEM: .footer) - RESTRUCTURED & FRAMED
+           ========================================================================== */
+        .footer {
+            background-color: #0b1329; /* Deep Professional Dark Navy */
+            color: #94a3b8;
+            padding: 80px 24px 40px;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .footer__container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, 1fr);
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .footer__info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .footer__logo-text {
+            color: var(--color-bg-white);
+            font-size: 1.45rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .footer__logo-text span {
+            color: var(--color-accent-teal);
+        }
+
+        .footer__tagline {
+            color: #64748b;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            max-width: 280px;
+            margin: 0;
+        }
+
+        .footer__socials {
+            display: flex;
+            gap: 12px;
+            margin-top: 5px;
+        }
+
+        .footer__social-link {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #94a3b8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .footer__social-link:hover {
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-bg-white);
+            transform: translateY(-3px);
+        }
+
+        .footer__column-title {
+            color: var(--color-bg-white);
+            font-size: 1rem;
+            margin-bottom: 24px;
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        /* Subtle Accent lines under titles to form structured groups */
+        .footer__column-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: var(--color-accent-teal);
+            border-radius: 2px;
+        }
+
+        .footer__list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer__item {
+            margin-bottom: 14px;
+        }
+
+        .footer__link {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer__link:hover {
+            color: var(--color-accent-teal);
+            transform: translateX(4px);
+        }
+
+        .footer__bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        /* ==========================================================================
            10. Responsive Breakpoints
            ========================================================================== */
         @media (max-width: 992px) {
@@ -1128,6 +1261,7 @@
 
             .footer__container {
                 grid-template-columns: 1.5fr 1fr;
+                gap: 40px;
             }
         }
 
@@ -1699,7 +1833,7 @@
     <!-- Toast Notification Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Footer Block -->
+    <!-- Restructured & Framed Footer Block -->
     <footer class="footer">
         <div class="footer__container">
             <div class="footer__info">
@@ -2012,10 +2146,10 @@
             });
 
 
-            /* --- 7A. [ADDED INTERACTIVE ACTIONS] Product Catalog Controller & Database Integration (Image 1 replica) --- */
+            /* --- 7A. Product Catalog Controller & Database Integration --- */
             let localMedications = [];
 
-            // Robust Fetch from dynamic database Medications API
+            // Robust Fetch from dynamic database Compounds API
             const loadMedicationCatalog = async () => {
                 const catalogGrid = document.getElementById("medCatalogGrid");
                 try {
@@ -2141,7 +2275,7 @@
             loadMedicationCatalog();
 
 
-            /* --- 7B. [ADDED INTERACTIVE ACTIONS] Client Testimonials block (Image 2 replica) --- */
+            /* --- 7B. Client Testimonials block --- */
             let testimonialList = [
                 { name: "Dr. Karim Bouzid", role: "Cardiologist - Algiers Center", text: "One of the best partners I have dealt with over the past 15 years. AuraPharma offers excellent quality and highly reasonable prices compared to imported products.", stars: 5, initial: "K" },
                 { name: "Sara Hamadi", role: "Patient - Oran Wilaya", text: "Helped me immensely in overcoming chronic migraine headaches. AuraFen Plus works fast with virtually no side effects. Highly recommended.", stars: 5, initial: "S" },
@@ -2210,7 +2344,7 @@
             renderTestimonials();
 
 
-            /* --- 7C. [ADDED INTERACTIVE Map] Leaflet Algeria Wilaya Map (Image 3 replica) --- */
+            /* --- 7C. Leaflet Algeria Wilaya Map --- */
             let distributionData = {};
 
             const loadAlgeriaMap = async () => {
