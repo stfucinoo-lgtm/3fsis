@@ -394,7 +394,7 @@
             gap: 30px;
         }
 
-        /* Interactive Showcase Cards styling */
+        /* Showcase Cards styling */
         .product-card {
             background-color: var(--color-bg-white);
             border: 1px solid var(--color-border);
@@ -577,6 +577,177 @@
         .features__card-text {
             font-size: 0.95rem;
             line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           Feedback / Testimonials Section Style (BEM: .feedback)
+           ========================================================================= */
+        .feedback {
+            padding: 100px 24px;
+            background-color: var(--color-bg-white);
+        }
+        .feedback__container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .feedback__header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+        .feedback__title {
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+        }
+        .feedback__subtitle {
+            color: var(--color-text-slate);
+        }
+        .feedback__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .feedback__card {
+            background-color: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 35px;
+            position: relative;
+            transition: var(--transition-smooth);
+        }
+        .feedback__card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(64, 224, 208, 0.3);
+        }
+        .feedback__quote-icon {
+            font-size: 2rem;
+            color: rgba(0, 91, 150, 0.1);
+            position: absolute;
+            top: 25px;
+            right: 25px;
+        }
+        .feedback__rating {
+            color: #f59e0b;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .feedback__text {
+            font-size: 0.95rem;
+            color: var(--color-text-slate);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+        .feedback__author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .feedback__avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--color-primary);
+            color: var(--color-bg-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .feedback__author-name {
+            font-size: 1rem;
+            color: var(--color-text-dark);
+            font-weight: 700;
+        }
+        .feedback__author-role {
+            font-size: 0.8rem;
+            color: var(--color-text-slate);
+        }
+
+        /* ==========================================================================
+           Contact Map Section Style (BEM: .contact-map)
+           ========================================================================= */
+        .contact-map {
+            padding: 100px 24px;
+            background-color: var(--color-bg-light);
+        }
+        .contact-map__container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .contact-map__info {
+            max-width: 500px;
+        }
+        .contact-map__badge {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--color-primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: inline-block;
+            background-color: rgba(0, 91, 150, 0.05);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .contact-map__title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+        .contact-map__desc {
+            color: var(--color-text-slate);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+        .contact-map__details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .contact-map__item {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        .contact-map__icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(0, 91, 150, 0.05);
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .contact-map__item-title {
+            font-weight: 700;
+            color: var(--color-text-dark);
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+        .contact-map__item-text {
+            color: var(--color-text-slate);
+            font-size: 0.9rem;
+        }
+        .contact-map__visual {
+            height: 400px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-md);
+        }
+        .contact-map__iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         /* ==========================================================================
@@ -1040,7 +1211,8 @@
                 <a href="#" class="header__link">Home</a>
                 <a href="#productShowcase" class="header__link">Showcase</a>
                 <a href="#features" class="header__link">Solutions</a>
-                <a href="#" class="header__link" id="navPipelines">Pipelines</a>
+                <a href="#feedback" class="header__link">Feedback</a>
+                <a href="#contactMap" class="header__link">Our Hubs</a>
                 <button class="btn-ripple btn-ripple--secondary" id="clientPortalBtn">Portal Access</button>
                 
                 <!-- Navbar logout button (Visible for users and admins when logged in) -->
@@ -1149,6 +1321,87 @@
                     <h3 class="features__card-title">Federated R&D Pipeline</h3>
                     <p class="features__card-text">Run secure Multi-Party Computation analysis directly within distributed research environments safely.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback / Testimonials Section -->
+    <section class="feedback" id="feedback">
+        <div class="feedback__container">
+            <div class="feedback__header">
+                <span class="contact-map__badge">Clinical Trust</span>
+                <h2 class="feedback__title">What Our Partners Say</h2>
+                <p class="feedback__subtitle">Hear from clinical directors and global institutions leveraging AuraPharma pipelines.</p>
+            </div>
+            <div class="feedback__grid">
+                <div class="feedback__card">
+                    <i class="fa-solid fa-quote-right feedback__quote-icon"></i>
+                    <div class="feedback__rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="feedback__text">"AuraPharma altered our chemical synthesis pipeline. The simulation metrics allowed our lab to proceed to biological assay modeling in half the estimated time."</p>
+                    <div class="feedback__author">
+                        <div class="feedback__avatar">DH</div>
+                        <div>
+                            <h4 class="feedback__author-name">Dr. Daniel Hart</h4>
+                            <span class="feedback__author-role">Director, BioHealth Labs</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feedback__card">
+                    <i class="fa-solid fa-quote-right feedback__quote-icon"></i>
+                    <div class="feedback__rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="feedback__text">"The compliance verification modules gave us the exact security posture required to satisfy our institutional IRBs and protect federated patient data profiles."</p>
+                    <div class="feedback__author">
+                        <div class="feedback__avatar">AM</div>
+                        <div>
+                            <h4 class="feedback__author-name">Prof. Alistair Vance</h4>
+                            <span class="feedback__author-role">Principal Investigator, Vance Genomics</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Map Section -->
+    <section class="contact-map" id="contactMap">
+        <div class="contact-map__container">
+            <div class="contact-map__info">
+                <span class="contact-map__badge">Global Footprint</span>
+                <h2 class="contact-map__title">Our Clinical Hubs</h2>
+                <p class="contact-map__desc">Partner with AuraPharma. Reach out to our computational bio-chemists at our central research facility or global representative offices.</p>
+                <div class="contact-map__details">
+                    <div class="contact-map__item">
+                        <div class="contact-map__icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <h4 class="contact-map__item-title">Global Headquarters</h4>
+                            <p class="contact-map__item-text">400 Bio-Science Parkway, Suite 102, Boston, MA 02110</p>
+                        </div>
+                    </div>
+                    <div class="contact-map__item">
+                        <div class="contact-map__icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <h4 class="contact-map__item-title">General Inquiries</h4>
+                            <p class="contact-map__item-text">inquire@aurapharma.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-map__visual">
+                <!-- Embedded stylized map widget -->
+                <iframe class="contact-map__iframe" src="https://maps.google.com/maps?q=Boston%20Bio-Science%20Parkway&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
