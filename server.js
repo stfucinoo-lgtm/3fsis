@@ -261,15 +261,11 @@ app.post('/api/compounds', authenticateToken, requireAdmin, async (req, res) => 
     description = cleanInput(description);
     imageUrl = cleanInput(imageUrl);
 
-    const parsedPrice = parseFloat(price);
-    if (isNaN(parsedPrice) || parsedPrice < 0) {
-      return res.status(400).json({ error: 'السعر المقدم غير صالح' });
-    }
-
     if (!name || !category || !description) {
       return res.status(400).json({ error: 'تأكد من ملء جميع تفاصيل المركب الجديد' });
     }
 
+    const parsedPrice = parseFloat(price) || 0.0;
     const newComp = await Compound.create({ 
       name, 
       category, 
@@ -313,7 +309,7 @@ app.get('/api/users', authenticateToken, requireAdmin, async (req, res) => {
 
 
 /* ==========================================
-   بدء الخادم وبذر حساب المسؤول الافتراضي
+   بدء الخادم وبذر حساب المسؤول الافتراضي والمنتجات
    ========================================== */
 sequelize.sync({ alter: true }).then(async () => {
   console.log('Database Synced.');
@@ -335,33 +331,40 @@ sequelize.sync({ alter: true }).then(async () => {
     console.log('====================================================');
   }
 
-  // بذر مركبات طبية كعرض منتجات افتراضي في حال كان الجدول فارغاً
+  // بذر الأدوية لملء المعرض في أول تشغيل تلقائياً
   const compoundsCount = await Compound.count();
   if (compoundsCount === 0) {
     await Compound.bulkCreate([
       {
-        name: 'Aura-Amoxicillin 500mg',
-        category: 'Antibiotic / Therapeutic',
-        description: 'Broad-spectrum bactericidal antibiotic of the aminopenicillin family. Structured to demonstrate exceptional biological absorption, targeted action, and structural stability across complex cellular systems.',
-        price: 45.99,
-        imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80'
+        name: "AuraCillin 500mg",
+        category: "Antibiotics",
+        price: 320.00,
+        description: "Broad-spectrum penicillin derivative highly effective against respiratory, urinary tract, and middle ear bacterial infections.",
+        imageUrl: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80"
       },
       {
-        name: 'Aura-Metformin XR 1000mg',
-        category: 'Metabolic Regulator',
-        description: 'Extended-release metabolic regulator engineered to assist glycemic control. Helps control hepatic glucose production while safely improving peripheral insulin sensitivity indices.',
-        price: 29.50,
-        imageUrl: 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=600&q=80'
+        name: "AuraPress 10mg",
+        category: "Cardiology",
+        price: 480.00,
+        description: "Top-tier calcium channel blocker used for high blood pressure and stability of chronic angina pectoris.",
+        imageUrl: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=600&q=80"
       },
       {
-        name: 'Aura-Atorvastatin Bio',
-        category: 'Cardiovascular / Lipid agent',
-        description: 'Pure synthetic lipid modulator developed for effective HMG-CoA reductase pathway restriction. Provides consistent stabilization profiles for patients requiring long-term cardiovascular monitoring.',
-        price: 64.00,
-        imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80'
+        name: "AuraFen Plus",
+        category: "Pain Relief",
+        price: 250.00,
+        description: "Combined high-grade Ibuprofen and Caffeine to quickly eliminate severe muscle contractions, migraine attacks and toothaches.",
+        imageUrl: "https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        name: "AuraVit D3 1000",
+        category: "Vitamins",
+        price: 550.00,
+        description: "Premium Vitamin D3 formulation optimizing skeletal structure, calcium density, and boosting cellular immune systems.",
+        imageUrl: "https://images.unsplash.com/photo-1616671285410-09a8053cbfd5?auto=format&fit=crop&w=600&q=80"
       }
     ]);
-    console.log('Seed: Default products populated successfully.');
+    console.log('Seed: Compounds collection populated successfully.');
   }
 
   app.listen(PORT, '0.0.0.0', () => {
