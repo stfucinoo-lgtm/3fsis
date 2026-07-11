@@ -17,10 +17,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-    <!-- Leaflet.js Library for Algeria Interactive Map (Required for Image 3 replica) -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
     <style>
         /* ==========================================================================
            1. Design Tokens (CSS Variables)
@@ -357,6 +353,156 @@
         }
 
         /* ==========================================================================
+           Product Showcase Section Style (BEM: .showcase)
+           ========================================================================== */
+        .showcase {
+            padding: 80px 24px;
+            background-color: var(--color-bg-light);
+        }
+        .showcase__container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .showcase__header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 50px;
+        }
+        .showcase__badge {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--color-primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: inline-block;
+            background-color: rgba(0, 91, 150, 0.05);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .showcase__title {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        .showcase__subtitle {
+            color: var(--color-text-slate);
+            font-size: 0.95rem;
+        }
+        .showcase__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* Interactive Showcase Cards styling */
+        .product-card {
+            background-color: var(--color-bg-white);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(64, 224, 208, 0.3);
+        }
+        .product-card__image-wrapper {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            background-color: rgba(0, 91, 150, 0.05);
+        }
+        .product-card__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .product-card:hover .product-card__image {
+            transform: scale(1.08);
+        }
+        .product-card__badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(4px);
+            color: var(--color-bg-white);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 4px;
+            z-index: 2;
+        }
+        .product-card__content {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .product-card__category {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--color-accent-teal-dark);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .product-card__title {
+            font-size: 1.25rem;
+            color: var(--color-text-dark);
+            margin-bottom: 10px;
+        }
+        .product-card__preview {
+            font-size: 0.85rem;
+            color: var(--color-text-slate);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .product-card__footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--color-border);
+            padding-top: 15px;
+        }
+        .product-card__price {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--color-primary);
+        }
+        .product-card__btn {
+            background-color: var(--color-primary);
+            color: var(--color-bg-white);
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+        .product-card:hover .product-card__btn {
+            background-color: var(--color-accent-teal-dark);
+            transform: scale(1.1);
+        }
+
+        /* ==========================================================================
            7. Features Section (BEM: .features)
            ========================================================================== */
         .features {
@@ -431,386 +577,6 @@
         .features__card-text {
             font-size: 0.95rem;
             line-height: 1.6;
-        }
-
-        /* ==========================================================================
-           7A. [ADDED SECTION] Pharmaceutical Catalog Section (Image 1 replica)
-           ========================================================================== */
-        .med-catalog {
-            padding: 100px 24px;
-            background-color: var(--color-bg-light);
-        }
-
-        .med-catalog__header {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 50px;
-        }
-
-        .med-catalog__tabs {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .med-catalog__tab {
-            background-color: var(--color-bg-white);
-            color: var(--color-text-slate);
-            border: 1px solid var(--color-border);
-            padding: 10px 22px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-
-        .med-catalog__tab--active, .med-catalog__tab:hover {
-            background-color: var(--color-primary);
-            color: var(--color-bg-white);
-            border-color: var(--color-primary);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .med-catalog__grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .med-card {
-            background-color: var(--color-bg-white);
-            border: 1px solid var(--color-border);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition-smooth);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .med-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: rgba(64, 224, 208, 0.4);
-        }
-
-        .med-card__img-wrapper {
-            position: relative;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(0,91,150,0.1) 0%, rgba(64,224,208,0.1) 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .med-card__img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .med-card:hover .med-card__img-wrapper img {
-            transform: scale(1.1);
-        }
-
-        .med-card__badge {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background-color: rgba(255, 255, 255, 0.95);
-            color: var(--color-primary);
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 6px 14px;
-            border-radius: 20px;
-            box-shadow: var(--shadow-sm);
-            text-transform: uppercase;
-        }
-
-        .med-card__body {
-            padding: 24px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .med-card__title {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-            color: var(--color-text-dark);
-        }
-
-        .med-card__desc {
-            font-size: 0.9rem;
-            color: var(--color-text-slate);
-            margin-bottom: 20px;
-            line-height: 1.5;
-            flex-grow: 1;
-        }
-
-        .med-card__footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid rgba(0, 91, 150, 0.05);
-            padding-top: 16px;
-        }
-
-        .med-card__price-label {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            display: block;
-            text-transform: uppercase;
-        }
-
-        .med-card__price-value {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--color-primary);
-        }
-
-        .med-card__btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--color-bg-light);
-            color: var(--color-primary);
-            border: 1px solid var(--color-border);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-
-        .med-card__btn:hover {
-            background-color: var(--color-primary);
-            color: var(--color-bg-white);
-            transform: scale(1.1);
-        }
-
-        /* ==========================================================================
-           7B. [ADDED SECTION] Testimonials Section (Image 2 replica)
-           ========================================================================== */
-        .testimonials {
-            padding: 100px 24px;
-            background-color: var(--color-bg-white);
-        }
-
-        .testimonials__header {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 60px;
-        }
-
-        .testimonials__grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto 50px;
-        }
-
-        .testimonial-card {
-            background-color: var(--color-bg-light);
-            border: 1px solid var(--color-border);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition-smooth);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-            border-color: rgba(0, 91, 150, 0.15);
-        }
-
-        .testimonial-card__stars {
-            color: #f59e0b;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-
-        .testimonial-card__text {
-            font-size: 0.95rem;
-            font-style: italic;
-            line-height: 1.6;
-            color: var(--color-text-slate);
-            margin-bottom: 25px;
-        }
-
-        .testimonial-card__user {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            border-top: 1px solid rgba(0, 91, 150, 0.05);
-            padding-top: 15px;
-        }
-
-        .testimonial-card__avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background-color: var(--color-primary);
-            color: var(--color-bg-white);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .testimonial-card__name {
-            font-weight: 700;
-            color: var(--color-text-dark);
-            font-size: 0.95rem;
-        }
-
-        .testimonial-card__role {
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-
-        /* ==========================================================================
-           7C. [ADDED SECTION] Algeria Distribution Network Section (Image 3 replica)
-           ========================================================================== */
-        .distribution {
-            padding: 100px 24px;
-            background-color: var(--color-bg-light);
-        }
-
-        .distribution__header {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 50px;
-        }
-
-        .distribution__grid {
-            display: grid;
-            grid-template-columns: 1.3fr 0.7fr;
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            align-items: stretch;
-        }
-
-        .distribution__map-wrapper {
-            background-color: var(--color-bg-white);
-            border: 1px solid var(--color-border);
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: var(--shadow-md);
-            height: 500px;
-            position: relative;
-        }
-
-        #algeriaMap {
-            width: 100%;
-            height: 100%;
-            border-radius: 12px;
-            z-index: 1;
-        }
-
-        .distribution__panel {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .legend-card {
-            background-color: var(--color-bg-white);
-            border: 1px solid var(--color-border);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .legend-card__title {
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--color-text-dark);
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-            font-size: 0.85rem;
-        }
-
-        .legend-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-        }
-
-        .stats-card {
-            background-color: var(--color-primary);
-            color: var(--color-bg-white);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: var(--shadow-md);
-        }
-
-        .stats-item {
-            margin-bottom: 24px;
-        }
-
-        .stats-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .stats-num {
-            font-size: 2.2rem;
-            font-weight: 800;
-            line-height: 1;
-            margin-bottom: 4px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        .stats-label {
-            font-size: 0.85rem;
-            opacity: 0.85;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .selected-region-card {
-            background-color: var(--color-bg-white);
-            border: 1px solid var(--color-border);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow-sm);
-            display: none;
-            transition: var(--transition-smooth);
-        }
-
-        .selected-region-card--active {
-            display: block;
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         /* ==========================================================================
@@ -1213,14 +979,6 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .med-catalog__grid, .testimonials__grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .distribution__grid {
-                grid-template-columns: 1fr;
-            }
-
             .footer__container {
                 grid-template-columns: 1.5fr 1fr;
             }
@@ -1252,7 +1010,7 @@
                 flex-direction: column;
             }
 
-            .features__grid, .med-catalog__grid, .testimonials__grid {
+            .features__grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1280,8 +1038,8 @@
             
             <nav class="header__nav" id="headerNav">
                 <a href="#" class="header__link">Home</a>
+                <a href="#productShowcase" class="header__link">Showcase</a>
                 <a href="#features" class="header__link">Solutions</a>
-                <a href="#medCatalog" class="header__link">Our Products</a>
                 <a href="#" class="header__link" id="navPipelines">Pipelines</a>
                 <button class="btn-ripple btn-ripple--secondary" id="clientPortalBtn">Portal Access</button>
                 
@@ -1345,6 +1103,20 @@
         </div>
     </section>
 
+    <!-- Product Showcase Section -->
+    <section class="showcase" id="productShowcase">
+        <div class="showcase__container">
+            <div class="showcase__header">
+                <span class="showcase__badge">Aura Portfolio</span>
+                <h2 class="showcase__title">Compound Showcase</h2>
+                <p class="showcase__subtitle">Explore our highly validated molecular formulas, real-time pricing models, and direct bio-chemical previews.</p>
+            </div>
+            <div class="showcase__grid" id="showcaseGrid">
+                <!-- Dynamically populated product cards go here -->
+            </div>
+        </div>
+    </section>
+
     <!-- Features Section Block -->
     <section class="features" id="features">
         <div class="features__container">
@@ -1381,159 +1153,6 @@
         </div>
     </section>
 
-    <!-- NEW SECTION 1: Pharmaceutical Catalog Block (Image 1 replica) -->
-    <section class="med-catalog" id="medCatalog">
-        <div class="features__container">
-            <div class="med-catalog__header">
-                <h2 class="features__section-title">Our Pharmaceutical Portfolio</h2>
-                <p class="features__section-subtitle">A curated collection of our world-class standard medicines, widely distributed in Algerian pharmacies.</p>
-            </div>
-
-            <!-- Interactive Filters -->
-            <div class="med-catalog__tabs" id="catalogTabs">
-                <button class="med-catalog__tab med-catalog__tab--active" data-category="all">All Medicines</button>
-                <button class="med-catalog__tab" data-category="Antibiotics">Antibiotics</button>
-                <button class="med-catalog__tab" data-category="Cardiology">Cardiology</button>
-                <button class="med-catalog__tab" data-category="Pain Relief">Pain Relief</button>
-                <button class="med-catalog__tab" data-category="Vitamins">Vitamins / Others</button>
-            </div>
-
-            <!-- Dynamic Medical Grid -->
-            <div class="med-catalog__grid" id="medCatalogGrid">
-                <!-- Loaded dynamically from database or fallback -->
-            </div>
-        </div>
-    </section>
-
-    <!-- NEW SECTION 2: Customer Testimonials Block (Image 2 replica) -->
-    <section class="testimonials" id="testimonials">
-        <div class="features__container">
-            <div class="testimonials__header">
-                <h2 class="features__section-title">Client Testimonials</h2>
-                <p class="features__section-subtitle">Real feedback and experiences from doctors, pharmacists, and patients across the Algerian territory.</p>
-            </div>
-
-            <div class="testimonials__grid" id="testimonialsGrid">
-                <!-- Rendered dynamically -->
-            </div>
-
-            <!-- Dynamic element: Write a Review Form -->
-            <div style="max-width: 600px; margin: 40px auto 0; background-color: var(--color-bg-light); border: 1px solid var(--color-border); padding: 30px; border-radius: 16px; box-shadow: var(--shadow-sm);">
-                <h4 style="margin-bottom: 12px; text-align: center; color: var(--color-text-dark);">Share Your Clinical Experience</h4>
-                <form id="addReviewForm" novalidate>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 12px;">
-                        <div>
-                            <label class="form-label">Full Name</label>
-                            <input type="text" class="modal__input" id="revName" placeholder="Dr. Sofia Ben" style="margin-bottom: 0;">
-                        </div>
-                        <div>
-                            <label class="form-label">Profession / Location</label>
-                            <input type="text" class="modal__input" id="revRole" placeholder="Pharmacist - Oran" style="margin-bottom: 0;">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Rating</label>
-                        <select class="modal__input" id="revRating" style="background-color: var(--color-bg-white);">
-                            <option value="5">★★★★★ (5 Stars)</option>
-                            <option value="4">★★★★☆ (4 Stars)</option>
-                            <option value="3">★★★☆☆ (3 Stars)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Your Experience Message</label>
-                        <textarea class="modal__input" id="revText" placeholder="Describe clinical efficacy or patient feedback..." style="height: 80px;"></textarea>
-                    </div>
-                    <button type="submit" class="btn-ripple btn-ripple--primary" style="width: 100%;">Publish Testimony</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- NEW SECTION 3: National Distribution Network Map Block (Image 3 replica) -->
-    <section class="distribution" id="distribution">
-        <div class="features__container">
-            <div class="distribution__header">
-                <h2 class="features__section-title">Our Distribution Network in Algeria</h2>
-                <p class="features__section-subtitle">An interactive clinical map displaying product availability levels across the 58 Algerian Wilayas.</p>
-            </div>
-
-            <div class="distribution__grid">
-                <!-- Leaflet Interactive Map -->
-                <div class="distribution__map-wrapper">
-                    <div id="algeriaMap"></div>
-                </div>
-
-                <!-- Color Guide & Dynamic Info Panel -->
-                <div class="distribution__panel">
-                    <div class="legend-card">
-                        <h4 class="legend-card__title">Penetration Scale</h4>
-                        <div class="legend-item">
-                            <span class="legend-color" style="background-color: #005b96;"></span>
-                            <span>Excellent Coverage (80%+)</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-color" style="background-color: #0070ba;"></span>
-                            <span>Good Coverage (60% - 79%)</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-color" style="background-color: #40e0d0;"></span>
-                            <span>Moderate Coverage (40% - 59%)</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-color" style="background-color: #26b3a5;"></span>
-                            <span>Weak Coverage (20% - 39%)</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-color" style="background-color: #b2ebf2;"></span>
-                            <span>Limited Coverage (< 20%)</span>
-                        </div>
-                    </div>
-
-                    <!-- Selected Region Dynamic Card -->
-                    <div class="selected-region-card" id="selectedRegionCard">
-                        <h4 id="selRegionName" style="color: var(--color-primary); margin-bottom: 8px;">Algeria Central</h4>
-                        <p style="font-size: 0.9rem; margin-bottom: 8px;"><strong style="color: var(--color-text-dark);">Governorates:</strong> <span id="selRegions">Algiers, Blida, Tipaza</span></p>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem; margin-top: 12px; border-top: 1px solid rgba(0,91,150,0.05); padding-top: 10px;">
-                            <div>
-                                <span style="display: block; color: #94a3b8;">Coverage Rate</span>
-                                <strong id="selCoverage" style="color: var(--color-accent-teal-dark);">94%</strong>
-                            </div>
-                            <div>
-                                <span style="display: block; color: #94a3b8;">Partner Pharmacies</span>
-                                <strong id="selPharmacies">480</strong>
-                            </div>
-                            <div>
-                                <span style="display: block; color: #94a3b8;">Top Request</span>
-                                <strong id="selTopMed" style="color: var(--color-primary);">AuraAmox</strong>
-                            </div>
-                            <div>
-                                <span style="display: block; color: #94a3b8;">Local Rep.</span>
-                                <strong id="selRep" style="font-size: 0.75rem;">Dr. Belhadj</strong>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Quick National Stats Box -->
-                    <div class="stats-card">
-                        <h4 style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 700;">Global National Stats</h4>
-                        <div class="stats-item">
-                            <div class="stats-num">58</div>
-                            <div class="stats-label">Wilayas Covered</div>
-                        </div>
-                        <div class="stats-item">
-                            <div class="stats-num">+12,400</div>
-                            <div class="stats-label">Partner Pharmacies</div>
-                        </div>
-                        <div class="stats-item">
-                            <div class="stats-num">73%</div>
-                            <div class="stats-label">National Coverage Rate</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Search Modal Block -->
     <div class="modal" id="searchModal">
         <div class="modal__overlay" id="modalOverlay"></div>
@@ -1550,36 +1169,28 @@
         </div>
     </div>
 
-    <!-- Interactive Medication Details Modal (Added for Product Catalog integration) -->
-    <div class="modal" id="medDetailsModal">
-        <div class="modal__overlay" id="medDetailsOverlay"></div>
-        <div class="modal__content" style="max-width: 500px;">
-            <button class="modal__close" id="medDetailsClose" aria-label="Close modal">&times;</button>
-            <div class="modal__header" style="border-bottom: 1px solid var(--color-border); padding-bottom: 16px;">
-                <span class="modal__result-category" id="modalMedCat" style="color: var(--color-accent-teal-dark);">ANTIBIOTIC</span>
-                <h2 class="modal__title" id="modalMedName" style="color: var(--color-primary); margin-top: 4px;">AuraCillin 500mg</h2>
+    <!-- Product Details Modal Block -->
+    <div class="modal" id="productDetailModal">
+        <div class="modal__overlay" id="productDetailOverlay"></div>
+        <div class="modal__content" style="max-width: 650px; padding: 0; overflow: hidden; border-radius: 16px;">
+            <button class="modal__close" id="productDetailClose" style="top: 15px; right: 15px; z-index: 15; background-color: rgba(255, 255, 255, 0.85); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">&times;</button>
+            <div style="position: relative; height: 280px; width: 100%;">
+                <img id="detailModalImage" src="" alt="Medication Image" style="width: 100%; height: 100%; object-fit: cover;">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 120px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); pointer-events: none; z-index: 1;"></div>
+                <div style="position: absolute; bottom: 20px; left: 24px; z-index: 2;">
+                    <span id="detailModalCategory" style="color: var(--color-accent-teal); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 5px;"></span>
+                    <h2 id="detailModalTitle" style="color: var(--color-bg-white); font-size: 1.8rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);"></h2>
+                </div>
             </div>
-            
-            <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 14px;">
-                <div>
-                    <span style="font-weight: 600; color: var(--color-text-dark); display: block; font-size: 0.9rem;">Chemical Formula:</span>
-                    <span id="modalMedFormula" style="font-family: monospace; font-size: 1.1rem; color: var(--color-text-slate);">C16H19N3O5S</span>
-                </div>
-                <div>
-                    <span style="font-weight: 600; color: var(--color-text-dark); display: block; font-size: 0.9rem;">Description:</span>
-                    <p id="modalMedDesc" style="font-size: 0.9rem; line-height: 1.5; color: var(--color-text-slate);"></p>
-                </div>
-                <div>
-                    <span style="font-weight: 600; color: var(--color-text-dark); display: block; font-size: 0.9rem;">Recommended Usage:</span>
-                    <p id="modalMedUsage" style="font-size: 0.9rem; font-style: italic; color: var(--color-text-slate);"></p>
-                </div>
-                
-                <div style="display: flex; justify-content: space-between; align-items: center; background-color: var(--color-bg-light); padding: 15px 20px; border-radius: 8px; margin-top: 10px; border: 1px solid var(--color-border);">
+            <div style="padding: 30px;">
+                <p style="font-weight: 600; color: var(--color-text-dark); margin-bottom: 8px; font-size: 0.95rem;">Product Bio-Dynamics Description</p>
+                <p id="detailModalDescription" style="color: var(--color-text-slate); font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px;"></p>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--color-border); padding-top: 20px;">
                     <div>
-                        <span style="font-size: 0.75rem; color: #94a3b8; display: block;">REFERENCE PRICE</span>
-                        <strong id="modalMedPrice" style="font-size: 1.3rem; color: var(--color-primary);">320.00 DZD</strong>
+                        <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-text-slate); display: block; margin-bottom: 4px; font-weight: 500;">Clinical Base Price</span>
+                        <span id="detailModalPrice" style="font-size: 1.8rem; font-weight: 800; color: var(--color-primary); font-family: 'Plus Jakarta Sans', sans-serif;"></span>
                     </div>
-                    <span id="modalMedAvail" style="padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 0.75rem;">AVAILABLE</span>
+                    <button class="btn-ripple btn-ripple--primary" id="detailModalOrderBtn">Initiate Order Inquiry</button>
                 </div>
             </div>
         </div>
@@ -1761,6 +1372,16 @@
                                 <label class="form-label">Therapeutic Category</label>
                                 <input type="text" class="modal__input" id="adminCompCat" placeholder="e.g., Lipid Regulator">
                                 <div class="input-error-msg" id="adminCompCatError">Category is required.</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Clinical Base Price ($)</label>
+                                <input type="number" step="0.01" class="modal__input" id="adminCompPrice" placeholder="e.g., 45.99">
+                                <div class="input-error-msg" id="adminCompPriceError">Price must be a valid positive number.</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Showcase Image URL</label>
+                                <input type="url" class="modal__input" id="adminCompImageUrl" placeholder="e.g., https://unsplash.com/...">
+                                <div class="input-error-msg" id="adminCompImageUrlError">A valid image URL is required.</div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Structural Description</label>
@@ -2037,12 +1658,98 @@
                 searchDebouncer = setTimeout(() => fetchPublicCompounds(e.target.value), 300);
             });
 
+            /* --- 7. Product Showcase Integration --- */
+            const showcaseGrid = document.getElementById("showcaseGrid");
+            const productDetailModal = document.getElementById("productDetailModal");
+            const productDetailClose = document.getElementById("productDetailClose");
+            const productDetailOverlay = document.getElementById("productDetailOverlay");
 
-            /* --- 7. Request Consultation (Strict Input Validation) --- */
+            const detailModalImage = document.getElementById("detailModalImage");
+            const detailModalCategory = document.getElementById("detailModalCategory");
+            const detailModalTitle = document.getElementById("detailModalTitle");
+            const detailModalDescription = document.getElementById("detailModalDescription");
+            const detailModalPrice = document.getElementById("detailModalPrice");
+            const detailModalOrderBtn = document.getElementById("detailModalOrderBtn");
+
+            // Close actions for detail modal
+            productDetailClose.addEventListener("click", () => productDetailModal.classList.remove("modal--active"));
+            productDetailOverlay.addEventListener("click", () => productDetailModal.classList.remove("modal--active"));
+
+            // Function to query backend database compounds and render them
+            const loadShowcaseProducts = async () => {
+                try {
+                    showcaseGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;"><i class="fa-solid fa-circle-notch fa-spin" style="color: var(--color-primary); font-size: 2rem;"></i></div>';
+                    const response = await fetch('/api/compounds');
+                    if (!response.ok) throw new Error("Compounds failed to load.");
+                    const products = await response.json();
+                    showcaseGrid.innerHTML = "";
+
+                    if (products.length === 0) {
+                        showcaseGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--color-text-slate);">No clinical molecules currently registered.</div>';
+                        return;
+                    }
+
+                    products.forEach(prod => {
+                        const card = document.createElement("div");
+                        card.className = "product-card";
+                        
+                        // Default static fallback image if null or blank
+                        const fallbackImg = "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80";
+                        const finalImg = prod.imageUrl && prod.imageUrl.trim().length > 0 ? prod.imageUrl : fallbackImg;
+                        const finalPrice = prod.price ? prod.price.toFixed(2) : "0.00";
+
+                        card.innerHTML = `
+                            <div class="product-card__image-wrapper">
+                                <span class="product-card__badge">Verified</span>
+                                <img class="product-card__image" src="${finalImg}" alt="${prod.name}" loading="lazy">
+                            </div>
+                            <div class="product-card__content">
+                                <span class="product-card__category">${prod.category}</span>
+                                <h3 class="product-card__title">${prod.name}</h3>
+                                <p class="product-card__preview" title="${prod.description}">${prod.description}</p>
+                                <div class="product-card__footer">
+                                    <span class="product-card__price">$${finalPrice}</span>
+                                    <button class="product-card__btn" aria-label="View compound details"><i class="fa-solid fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+                        `;
+
+                        // Add trigger event to pop open details modal
+                        card.addEventListener("click", () => {
+                            detailModalImage.src = finalImg;
+                            detailModalCategory.textContent = prod.category;
+                            detailModalTitle.textContent = prod.name;
+                            detailModalDescription.textContent = prod.description;
+                            detailModalPrice.textContent = `$${finalPrice}`;
+                            
+                            // Bind action to order inquiry button to prefill Consultation form directly
+                            detailModalOrderBtn.onclick = () => {
+                                productDetailModal.classList.remove("modal--active");
+                                consultationModal.classList.add("modal--active");
+                                document.getElementById("message").value = `Order Inquiry for: ${prod.name} (Base Price: $${finalPrice}). Please send cellular dynamic performance scores.`;
+                                showToast("Inquiry populated. Finish completing organizational data.", "success");
+                            };
+
+                            productDetailModal.classList.add("modal--active");
+                        });
+
+                        showcaseGrid.appendChild(card);
+                    });
+                } catch (err) {
+                    showcaseGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #ef4444; padding: 40px;">Failed to link with clinical product repository.</div>';
+                }
+            };
+            loadShowcaseProducts();
+
+
+            /* --- 8. Request Consultation (Strict Input Validation) --- */
             const consultationModal = document.getElementById("consultationModal");
             const consultForm = document.getElementById("consultationForm");
 
-            document.getElementById("ctaConsultation").addEventListener("click", () => consultationModal.classList.add("modal--active"));
+            document.getElementById("ctaConsultation").addEventListener("click", () => {
+                document.getElementById("message").value = "";
+                consultationModal.classList.add("modal--active");
+            });
             document.getElementById("consultationClose").addEventListener("click", () => { consultationModal.classList.remove("modal--active"); consultForm.reset(); });
             document.getElementById("consultationOverlay").addEventListener("click", () => { consultationModal.classList.remove("modal--active"); consultForm.reset(); });
 
@@ -2097,277 +1804,7 @@
             });
 
 
-            /* --- 7A. [ADDED INTERACTIVE ACTIONS] Product Catalog Controller & Database Integration (Image 1 replica) --- */
-            let localMedications = [];
-
-            // Robust Fetch from dynamic database Medications API
-            const loadMedicationCatalog = async () => {
-                const catalogGrid = document.getElementById("medCatalogGrid");
-                try {
-                    catalogGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;"><i class="fa-solid fa-spinner fa-spin" style="color: var(--color-primary); font-size: 2rem;"></i></div>';
-                    
-                    const response = await fetch('/api/medications');
-                    if (!response.ok) throw new Error();
-                    localMedications = await response.json();
-                    
-                    // Fallback to provide a complete robust showcase if DB is currently empty
-                    if (!localMedications || localMedications.length === 0) {
-                        localMedications = [
-                            { id: 101, name: "AuraCillin 500mg", category: "Antibiotics", price: 320.00, chemicalFormula: "C16H19N3O5S", description: "Broad-spectrum penicillin derivative highly effective against respiratory, urinary tract, and middle ear bacterial infections.", usage: "One capsule twice daily or as direct by medical doctor.", availability: "Available", image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400" },
-                            { id: 102, name: "AuraPress 10mg", category: "Cardiology", price: 480.00, chemicalFormula: "C20H25N3O3", description: "Top-tier calcium channel blocker used for high blood pressure and stability of chronic angina pectoris.", usage: "Take one tablet once daily at the same hour each morning.", availability: "Available", image: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&q=80&w=400" },
-                            { id: 103, name: "AuraFen Plus", category: "Pain Relief", price: 250.00, chemicalFormula: "C13H18O2 + C8H10N4O2", description: "Combined high-grade Ibuprofen and Caffeine to quickly eliminate severe muscle contractions, migraine attacks and toothaches.", usage: "One tablet every 6 hours as needed. Do not exceed 4 daily.", availability: "Available", image: "https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&q=80&w=400" },
-                            { id: 104, name: "AuraVit D3 1000", category: "Vitamins", price: 550.00, chemicalFormula: "C27H44O", description: "Premium Vitamin D3 formulation optimizing skeletal structure, calcium density, and boosting cellular immune systems.", usage: "Consume single softgel once weekly during food hours.", availability: "Limited", image: "https://images.unsplash.com/photo-1616671285410-09a8053cbfd5?auto=format&fit=crop&q=80&w=400" }
-                        ];
-                    }
-
-                    renderCatalog("all");
-                } catch (err) {
-                    catalogGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #ef4444; padding: 40px;">Failed to synchronized pharmaceutical database.</div>';
-                }
-            };
-
-            const renderCatalog = (filterCategory) => {
-                const catalogGrid = document.getElementById("medCatalogGrid");
-                catalogGrid.innerHTML = "";
-
-                const filtered = localMedications.filter(item => {
-                    if (filterCategory === "all") return true;
-                    return item.category.toLowerCase() === filterCategory.toLowerCase();
-                });
-
-                if (filtered.length === 0) {
-                    catalogGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px;">No registered clinical medications in this category.</p>';
-                    return;
-                }
-
-                filtered.forEach(med => {
-                    const fallbackImg = "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400";
-                    const imgSrc = med.image || fallbackImg;
-                    
-                    const card = document.createElement("div");
-                    card.className = "med-card";
-                    card.innerHTML = `
-                        <div class="med-card__img-wrapper">
-                            <span class="med-card__badge">${med.availability}</span>
-                            <img src="${imgSrc}" alt="${med.name}" onerror="this.src='${fallbackImg}'">
-                        </div>
-                        <div class="med-card__body">
-                            <h3 class="med-card__title">${med.name}</h3>
-                            <p class="med-card__desc">${med.description.substring(0, 110)}...</p>
-                            <div class="med-card__footer">
-                                <div>
-                                    <span class="med-card__price-label">Reference Cost</span>
-                                    <span class="med-card__price-value">${parseFloat(med.price).toFixed(2)} DZD</span>
-                                </div>
-                                <button class="med-card__btn" onclick="openMedDetails(${med.id || 0}, '${med.name}')" title="View Scientific Profile">
-                                    <i class="fa-solid fa-flask"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    catalogGrid.appendChild(card);
-                });
-            };
-
-            // Filter Tabs interaction
-            const catalogTabs = document.getElementById("catalogTabs");
-            catalogTabs.addEventListener("click", (e) => {
-                const tab = e.target.closest(".med-catalog__tab");
-                if (!tab) return;
-                
-                document.querySelectorAll(".med-catalog__tab").forEach(t => t.classList.remove("med-catalog__tab--active"));
-                tab.classList.add("med-catalog__tab--active");
-                
-                renderCatalog(tab.getAttribute("data-category"));
-            });
-
-            // Interactive Modal for Medication Details
-            const medDetailsModal = document.getElementById("medDetailsModal");
-            const medDetailsClose = document.getElementById("medDetailsClose");
-            
-            window.openMedDetails = (id, fallbackName) => {
-                // Find matching medication in list
-                const med = localMedications.find(m => m.id === id || m.name === fallbackName);
-                if (!med) return;
-
-                document.getElementById("modalMedCat").textContent = med.category;
-                document.getElementById("modalMedName").textContent = med.name;
-                document.getElementById("modalMedFormula").textContent = med.chemicalFormula || "N/A Structure";
-                document.getElementById("modalMedDesc").textContent = med.description;
-                document.getElementById("modalMedUsage").textContent = med.usage;
-                document.getElementById("modalMedPrice").textContent = `${parseFloat(med.price).toFixed(2)} DZD`;
-                
-                const availBadge = document.getElementById("modalMedAvail");
-                availBadge.textContent = med.availability;
-                if (med.availability.toLowerCase() === 'available') {
-                    availBadge.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
-                    availBadge.style.color = '#10b981';
-                } else {
-                    availBadge.style.backgroundColor = 'rgba(245, 158, 11, 0.1)';
-                    availBadge.style.color = '#f59e0b';
-                }
-
-                medDetailsModal.classList.add("modal--active");
-            };
-
-            medDetailsClose.addEventListener("click", () => medDetailsModal.classList.remove("modal--active"));
-            document.getElementById("medDetailsOverlay").addEventListener("click", () => medDetailsModal.classList.remove("modal--active"));
-
-            loadMedicationCatalog();
-
-
-            /* --- 7B. [ADDED INTERACTIVE ACTIONS] Client Testimonials block (Image 2 replica) --- */
-            let testimonialList = [
-                { name: "Dr. Karim Bouzid", role: "Cardiologist - Algiers Center", text: "One of the best partners I have dealt with over the past 15 years. AuraPharma offers excellent quality and highly reasonable prices compared to imported products.", stars: 5, initial: "K" },
-                { name: "Sara Hamadi", role: "Patient - Oran Wilaya", text: "Helped me immensely in overcoming chronic migraine headaches. AuraFen Plus works fast with virtually no side effects. Highly recommended.", stars: 5, initial: "S" },
-                { name: "Dr. Mohamed Larbi", role: "GP - Constantine", text: "I regularly see excellent clinical outcomes in my patients treated with AuraCillin. Its availability in pharmacies greatly aids the treatment cycle.", stars: 4, initial: "M" },
-                { name: "Amina Khaldi", role: "Patient - Setif", text: "Changed my life! After 3 months of using AuraVit D3, my bone pain significantly improved. My doctor recommended it to me, and I am very grateful.", stars: 5, initial: "A" },
-                { name: "Dr. Fatima Ben Omar", role: "Dermatologist - Batna", text: "An excellent cream for sensitive skin. I highly recommend it to patients suffering from eczema and dryness. Gentle, effective formulation.", stars: 5, initial: "F" },
-                { name: "Youssef Marzouk", role: "Pharmacist - Annaba", text: "Superb supplier. On-time delivery, products command high customer trust. A successful partnership for 3 years.", stars: 4, initial: "Y" }
-            ];
-
-            const renderTestimonials = () => {
-                const grid = document.getElementById("testimonialsGrid");
-                grid.innerHTML = "";
-                testimonialList.forEach(t => {
-                    let starsHTML = "";
-                    for(let i=0; i<5; i++) {
-                        starsHTML += i < t.stars ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
-                    }
-
-                    const card = document.createElement("div");
-                    card.className = "testimonial-card";
-                    card.innerHTML = `
-                        <div>
-                            <div class="testimonial-card__stars">${starsHTML}</div>
-                            <p class="testimonial-card__text">"${t.text}"</p>
-                        </div>
-                        <div class="testimonial-card__user">
-                            <div class="testimonial-card__avatar">${t.initial}</div>
-                            <div>
-                                <h4 class="testimonial-card__name">${t.name}</h4>
-                                <span class="testimonial-card__role">${t.role}</span>
-                            </div>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-            };
-
-            // Testimonial submission interaction
-            const addReviewForm = document.getElementById("addReviewForm");
-            addReviewForm.addEventListener("submit", (e) => {
-                e.preventDefault();
-                const name = document.getElementById("revName").value.trim();
-                const role = document.getElementById("revRole").value.trim();
-                const stars = parseInt(document.getElementById("revRating").value);
-                const text = document.getElementById("revText").value.trim();
-
-                if (!name || !role || !text) {
-                    showToast("Please fill all testimonial fields.", "error");
-                    return;
-                }
-
-                const newTestimony = {
-                    name,
-                    role,
-                    text,
-                    stars,
-                    initial: name.charAt(0).toUpperCase()
-                };
-
-                testimonialList.unshift(newTestimony); // Add to beginning
-                renderTestimonials();
-                addReviewForm.reset();
-                showToast("Thank you! Your testimony has been securely published.", "success");
-            });
-
-            renderTestimonials();
-
-
-            /* --- 7C. [ADDED INTERACTIVE Map] Leaflet Algeria Wilaya Map (Image 3 replica) --- */
-            let distributionData = {};
-
-            const loadAlgeriaMap = async () => {
-                // Leaflet Map Initialization centered on Algeria inhabited regions
-                const map = L.map('algeriaMap', {
-                    scrollWheelZoom: false,
-                    attributionControl: false
-                }).setView([34.5, 3.5], 6);
-
-                // Sleek CartoDB Light Tile layer
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                    maxZoom: 18
-                }).addTo(map);
-
-                // Standard Algeria Region Coordinates mapping
-                const regionNodes = [
-                    { name: "Center Region", latlng: [36.7538, 3.0588], coverage: "94%", key: "center", color: "#005b96" },
-                    { name: "West Region", latlng: [35.6971, -0.6308], coverage: "88%", key: "west", color: "#0070ba" },
-                    { name: "East Region", latlng: [36.3650, 6.6147], coverage: "91%", key: "east", color: "#005b96" },
-                    { name: "Highlands Region", latlng: [34.6724, 3.2630], coverage: "79%", key: "highlands", color: "#40e0d0" },
-                    { name: "South Region", latlng: [31.9527, 5.3248], coverage: "68%", key: "south", color: "#26b3a5" }
-                ];
-
-                // Fetch real Algeria distribution data or load static fallback
-                try {
-                    const response = await fetch('/api/distribution/algeria');
-                    if (response.ok) {
-                        distributionData = await response.json();
-                    } else {
-                        throw new Error();
-                    }
-                } catch (e) {
-                    // Fallback identical to API structure
-                    distributionData = {
-                        center: { regions: "Algiers, Blida, Boumerdes, Tipaza", coverage: "94%", partnerPharmacies: 480, topRequestedMed: "AuraAmox", representative: "Dr. Youssef Belhadj" },
-                        west: { regions: "Oran, Tlemcen, Mostaganem, Sidi Bel Abbes", coverage: "88%", partnerPharmacies: 350, topRequestedMed: "AuraGluc", representative: "Dr. Amina Gharbi" },
-                        east: { regions: "Constantine, Annaba, Setif, Jijel, Skikda", coverage: "91%", partnerPharmacies: 410, topRequestedMed: "AuraCard", representative: "Dr. Karim Bouhara" },
-                        highlands: { regions: "Djelfa, M'sila, Tiaret, Batna", coverage: "79%", partnerPharmacies: 220, topRequestedMed: "AuraDol", representative: "Mr. Mourad Benyahia" },
-                        south: { regions: "Ouargla, Ghardaia, Adrar, Tamanrasset, Bechar", coverage: "68%", partnerPharmacies: 130, topRequestedMed: "AuraBreathe", representative: "Dr. Laid El-Tayer" }
-                    };
-                }
-
-                // Interactive region selection display trigger
-                const showRegionDetails = (regionKey, name) => {
-                    const data = distributionData[regionKey];
-                    if (!data) return;
-
-                    document.getElementById("selRegionName").textContent = name;
-                    document.getElementById("selRegions").textContent = data.regions;
-                    document.getElementById("selCoverage").textContent = data.coverage;
-                    document.getElementById("selPharmacies").textContent = data.partnerPharmacies;
-                    document.getElementById("selTopMed").textContent = data.topRequestedMed;
-                    document.getElementById("selRep").textContent = data.representative;
-
-                    const card = document.getElementById("selectedRegionCard");
-                    card.classList.add("selected-region-card--active");
-                };
-
-                // Add interactive vector circles
-                regionNodes.forEach(node => {
-                    const circle = L.circleMarker(node.latlng, {
-                        color: node.color,
-                        fillColor: node.color,
-                        fillOpacity: 0.7,
-                        radius: 12
-                    }).addTo(map);
-
-                    circle.bindPopup(`<b>${node.name}</b><br>Coverage: ${node.coverage}`);
-
-                    circle.on('click', () => {
-                        showRegionDetails(node.key, node.name);
-                    });
-                });
-
-                // Auto-show Center Region initially
-                showRegionDetails("center", "Center Region");
-            };
-
-            loadAlgeriaMap();
-
-
-            /* --- 8. Secure Authentication (Auth Modal) --- */
+            /* --- 9. Secure Authentication (Auth Modal) --- */
             const authModal = document.getElementById("authModal");
             const loginForm = document.getElementById("loginForm");
             const registerForm = document.getElementById("registerForm");
@@ -2521,7 +1958,7 @@
             });
 
 
-            /* --- 9. Administrative Control Panel (Admin Dashboard) --- */
+            /* --- 10. Administrative Control Panel (Admin Dashboard) --- */
             const adminDashboardModal = document.getElementById("adminDashboardModal");
             const adminConsultsContainer = document.getElementById("adminConsultsContainer");
             const adminCompoundsContainer = document.getElementById("adminCompoundsContainer");
@@ -2635,6 +2072,7 @@
                             <div class="modal__result-category">${comp.category}</div>
                             <h3 class="modal__result-title">${comp.name}</h3>
                             <p class="modal__result-desc">${comp.description}</p>
+                            <div style="margin-top: 10px; font-weight: bold; color: var(--color-primary);">Price: $${comp.price ? comp.price.toFixed(2) : '0.00'}</div>
                         `;
                         adminCompoundsContainer.appendChild(card);
                     });
@@ -2653,6 +2091,7 @@
                     if (res.ok) {
                         showToast("Compound deleted from clinical core.", "success");
                         loadAdminCompounds();
+                        loadShowcaseProducts(); // Refresh homepage showcase
                     } else {
                         showToast("Failure removing record.", "error");
                     }
@@ -2665,23 +2104,28 @@
             const dashAddCompoundForm = document.getElementById("dashAddCompoundForm");
             const adminCompName = document.getElementById("adminCompName");
             const adminCompCat = document.getElementById("adminCompCat");
+            const adminCompPrice = document.getElementById("adminCompPrice");
+            const adminCompImageUrl = document.getElementById("adminCompImageUrl");
             const adminCompDesc = document.getElementById("adminCompDesc");
 
             adminCompName.addEventListener("input", () => toggleFieldError(adminCompName, document.getElementById("adminCompNameError"), adminCompName.value.trim().length > 0));
             adminCompCat.addEventListener("input", () => toggleFieldError(adminCompCat, document.getElementById("adminCompCatError"), adminCompCat.value.trim().length > 0));
+            adminCompPrice.addEventListener("input", () => toggleFieldError(adminCompPrice, document.getElementById("adminCompPriceError"), !isNaN(parseFloat(adminCompPrice.value)) && parseFloat(adminCompPrice.value) >= 0));
             adminCompDesc.addEventListener("input", () => toggleFieldError(adminCompDesc, document.getElementById("adminCompDescError"), adminCompDesc.value.trim().length >= 10));
 
             dashAddCompoundForm.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 const v1 = adminCompName.value.trim().length > 0;
                 const v2 = adminCompCat.value.trim().length > 0;
-                const v3 = adminCompDesc.value.trim().length >= 10;
+                const v3 = !isNaN(parseFloat(adminCompPrice.value)) && parseFloat(adminCompPrice.value) >= 0;
+                const v4 = adminCompDesc.value.trim().length >= 10;
 
                 toggleFieldError(adminCompName, document.getElementById("adminCompNameError"), v1);
                 toggleFieldError(adminCompCat, document.getElementById("adminCompCatError"), v2);
-                toggleFieldError(adminCompDesc, document.getElementById("adminCompDescError"), v3);
+                toggleFieldError(adminCompPrice, document.getElementById("adminCompPriceError"), v3);
+                toggleFieldError(adminCompDesc, document.getElementById("adminCompDescError"), v4);
 
-                if (v1 && v2 && v3) {
+                if (v1 && v2 && v3 && v4) {
                     try {
                         const response = await fetch('/api/compounds', {
                             method: 'POST',
@@ -2692,6 +2136,8 @@
                             body: JSON.stringify({
                                 name: adminCompName.value,
                                 category: adminCompCat.value,
+                                price: adminCompPrice.value,
+                                imageUrl: adminCompImageUrl.value,
                                 description: adminCompDesc.value
                             })
                         });
@@ -2699,6 +2145,7 @@
                             showToast("New clinical compound synthesized in registry!", "success");
                             dashAddCompoundForm.reset();
                             loadAdminCompounds();
+                            loadShowcaseProducts(); // Refresh homepage showcase
                         } else {
                             const err = await response.json();
                             showToast(err.error, "error");
